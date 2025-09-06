@@ -23,26 +23,39 @@ const Index = () => {
       <Header />
       
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            Bem-vindo ao EduManager
+        <div className="mb-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-gradient-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-mono mb-4 shadow-neon animate-fade-in">
+            <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+            Sistema Online
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 bg-gradient-hero bg-clip-text text-transparent animate-slide-up">
+            Bem-vindo ao SIGEA
           </h2>
-          <p className="text-muted-foreground">
-            Sistema de gestão escolar para frequência e alimentação
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto animate-fade-in" style={{animationDelay: '0.2s'}}>
+            Sistema Integrado de Gestão Educacional e Alimentar • Interface inteligente para controle de frequência e alimentação escolar
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-card shadow-soft">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-3 bg-card/80 glass shadow-neon border border-primary/20 p-1 backdrop-blur-xl">
+            <TabsTrigger 
+              value="dashboard" 
+              className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-neon transition-all duration-300 rounded-lg font-medium"
+            >
               <TrendingUp className="h-4 w-4" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="attendance" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="attendance" 
+              className="flex items-center gap-2 data-[state=active]:bg-gradient-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-neon-secondary transition-all duration-300 rounded-lg font-medium"
+            >
               <Calendar className="h-4 w-4" />
               Frequência
             </TabsTrigger>
-            <TabsTrigger value="lunch" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="lunch" 
+              className="flex items-center gap-2 data-[state=active]:bg-gradient-accent data-[state=active]:text-accent-foreground data-[state=active]:shadow-neon-accent transition-all duration-300 rounded-lg font-medium"
+            >
               <UtensilsCrossed className="h-4 w-4" />
               Lanches
             </TabsTrigger>
