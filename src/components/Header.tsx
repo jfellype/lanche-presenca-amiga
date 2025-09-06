@@ -1,6 +1,7 @@
 import { GraduationCap, Menu, User, Zap } from "lucide-react";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
+import NotificationSystem from "./Notifications/NotificationSystem";
 
 const Header = () => {
   return (
@@ -49,6 +50,7 @@ const Header = () => {
         </nav>
         
         <div className="flex items-center space-x-3">
+          <NotificationSystem />
           <ThemeToggle />
           <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300">
             <User className="h-5 w-5" />

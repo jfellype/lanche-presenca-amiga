@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Header from "@/components/Header";
-import DashboardCard from "@/components/DashboardCard";
-import AttendanceSection from "@/components/AttendanceSection";
-import LunchSection from "@/components/LunchSection";
+import MetricsCard from "@/components/Dashboard/MetricsCard";
+import AttendanceChart from "@/components/Dashboard/AttendanceChart";  
+import LunchChart from "@/components/Dashboard/LunchChart";
+import StudentList from "@/components/Attendance/StudentList";
+import MenuManager from "@/components/Lunch/MenuManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
@@ -63,79 +65,115 @@ const Index = () => {
 
           <TabsContent value="dashboard" className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <DashboardCard
+              <MetricsCard
                 title="Total de Alunos"
                 value="248"
                 description="Alunos matriculados"
                 icon={Users}
+                color="primary"
                 trend={{ value: 5.2, isPositive: true }}
               />
-              <DashboardCard
+              <MetricsCard
                 title="Presentes Hoje"
                 value="232"
                 description="93.5% de frequência"
                 icon={UserCheck}
+                color="secondary"
                 trend={{ value: 2.1, isPositive: true }}
               />
-              <DashboardCard
+              <MetricsCard
                 title="Ausentes"
                 value="16"
                 description="6.5% dos alunos"
                 icon={UserX}
+                color="destructive"
                 trend={{ value: -1.8, isPositive: false }}
               />
-              <DashboardCard
+              <MetricsCard
                 title="Lanches Servidos"
                 value="198"
                 description="80% dos presentes"
                 icon={UtensilsCrossed}
+                color="accent"
                 trend={{ value: 8.3, isPositive: true }}
               />
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              <div className="bg-gradient-card backdrop-blur-sm rounded-lg p-6 shadow-soft border border-border/50">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-primary" />
-                  Resumo de Hoje
+              <AttendanceChart />
+              <LunchChart />
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="glass bg-gradient-card border-primary/20 shadow-neon rounded-lg p-6 hover:shadow-neon-secondary transition-all duration-500">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 font-mono">
+                  <Clock className="h-5 w-5 text-primary animate-pulse" />
+                  Status do Sistema
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Horário de entrada:</span>
-                    <span className="font-medium">07:30 - 08:00</span>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-secondary/10 border border-secondary/20">
+                    <span className="text-muted-foreground font-mono">Banco de Dados:</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+                      <span className="font-medium text-secondary font-mono">Online</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Horário do lanche:</span>
-                    <span className="font-medium">09:30 - 10:00</span>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-secondary/10 border border-secondary/20">
+                    <span className="text-muted-foreground font-mono">API Status:</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+                      <span className="font-medium text-secondary font-mono">Ativo</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Alunos no refeitório:</span>
-                    <span className="font-medium text-secondary">198 alunos</span>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-primary/10 border border-primary/20">
+                    <span className="text-muted-foreground font-mono">Última atualização:</span>
+                    <span className="font-medium font-mono">{new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Próxima refeição:</span>
-                    <span className="font-medium">12:00 - Almoço</span>
+                  <div className="flex justify-between items-center p-3 rounded-lg bg-accent/10 border border-accent/20">
+                    <span className="text-muted-foreground font-mono">Próxima sincronização:</span>
+                    <span className="font-medium text-accent font-mono">Em 15 min</span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-card backdrop-blur-sm rounded-lg p-6 shadow-soft border border-border/50">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Award className="h-5 w-5 text-accent" />
-                  Destaques da Semana
+              <div className="glass bg-gradient-card border-accent/20 shadow-neon-accent rounded-lg p-6 hover:shadow-neon transition-all duration-500">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 font-mono">
+                  <Award className="h-5 w-5 text-accent animate-float" />
+                  Conquistas da Semana
                 </h3>
                 <div className="space-y-3">
-                  <div className="p-3 bg-secondary/10 rounded-lg border border-secondary/20">
-                    <p className="font-medium text-secondary">Melhor Frequência</p>
-                    <p className="text-sm text-muted-foreground">Turma 5ºA - 98.5%</p>
+                  <div className="p-4 bg-secondary/10 rounded-lg border border-secondary/30 shadow-neon-secondary">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center shadow-neon-secondary">
+                        <Award className="h-5 w-5 text-secondary-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-secondary font-mono">Melhor Frequência</p>
+                        <p className="text-sm text-muted-foreground">Turma 5ºA - 98.5%</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
-                    <p className="font-medium text-primary">Maior Consumo</p>
-                    <p className="text-sm text-muted-foreground">Suco Natural - 85%</p>
+                  <div className="p-4 bg-primary/10 rounded-lg border border-primary/30 shadow-neon">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-neon">
+                        <UtensilsCrossed className="h-5 w-5 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-primary font-mono">Maior Aceitação</p>
+                        <p className="text-sm text-muted-foreground">Suco Natural - 95%</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-3 bg-accent/10 rounded-lg border border-accent/20">
-                    <p className="font-medium text-accent">Meta Atingida</p>
-                    <p className="text-sm text-muted-foreground">Desperdício reduzido em 15%</p>
+                  <div className="p-4 bg-accent/10 rounded-lg border border-accent/30 shadow-neon-accent">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-accent rounded-full flex items-center justify-center shadow-neon-accent">
+                        <TrendingUp className="h-5 w-5 text-accent-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-accent font-mono">Meta Sustentável</p>
+                        <p className="text-sm text-muted-foreground">Desperdício reduzido em 20%</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -143,11 +181,11 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="attendance">
-            <AttendanceSection />
+            <StudentList />
           </TabsContent>
 
           <TabsContent value="lunch">
-            <LunchSection />
+            <MenuManager />
           </TabsContent>
         </Tabs>
       </main>
