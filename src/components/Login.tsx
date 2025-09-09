@@ -21,25 +21,38 @@ const Login = () => {
 
         <Card className="glass border-primary/20 shadow-neon">
           <CardHeader className="text-center">
-            <CardTitle>Escolha seu perfil</CardTitle>
-            <CardDescription>Selecione como deseja acessar o sistema</CardDescription>
+            <CardTitle>Acesso ao Sistema</CardTitle>
+            <CardDescription>Selecione seu tipo de usuário para continuar</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
               onClick={() => login('admin')} 
-              className="w-full h-12 bg-gradient-primary hover:shadow-neon transition-all"
+              className="w-full h-14 bg-gradient-primary hover:shadow-neon transition-all text-lg font-medium"
             >
-              <UserCog className="w-5 h-5 mr-2" />
-              Acesso Administrativo
+              <UserCog className="w-6 h-6 mr-3" />
+              <div className="text-left">
+                <div>Administrador</div>
+                <div className="text-xs opacity-80">Painel completo de gestão</div>
+              </div>
             </Button>
+            
             <Button 
               onClick={() => login('student')} 
               variant="outline"
-              className="w-full h-12 border-accent hover:bg-accent/10 hover:border-accent/50 transition-all"
+              className="w-full h-14 border-secondary hover:bg-secondary/10 hover:border-secondary transition-all text-lg font-medium"
             >
-              <GraduationCap className="w-5 h-5 mr-2" />
-              Portal do Estudante
+              <GraduationCap className="w-6 h-6 mr-3 text-secondary" />
+              <div className="text-left">
+                <div>Estudante</div>
+                <div className="text-xs opacity-80">Portal do aluno</div>
+              </div>
             </Button>
+
+            <div className="text-center pt-4">
+              <p className="text-xs text-muted-foreground">
+                🚀 Sistema em modo demonstração - Clique em qualquer opção para acessar
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
