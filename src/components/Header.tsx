@@ -1,63 +1,43 @@
-import { GraduationCap, Menu, User, Zap } from "lucide-react";
-import { Button } from "./ui/button";
-import ThemeToggle from "./ThemeToggle";
-import NotificationSystem from "./Notifications/NotificationSystem";
+import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ThemeToggle";
+import { useAuth } from "@/hooks/useAuth";
+import { Shield, LogOut, User } from "lucide-react";
 
 const Header = () => {
+  const { user, logout } = useAuth();
+
   return (
-    <header className="relative bg-gradient-hero shadow-neon border-b border-primary/20 tech-grid">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-4 -left-4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute -bottom-4 -right-4 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-      </div>
-      
-      <div className="relative container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-3 group">
-          <div className="relative">
-            <GraduationCap className="h-8 w-8 text-primary-foreground transition-all duration-300 group-hover:animate-pulse-glow" />
-            <Zap className="absolute -top-1 -right-1 h-3 w-3 text-secondary animate-pulse" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-primary-foreground font-mono tracking-wider">
-              SIGEA
-            </h1>
-            <div className="text-xs text-primary-foreground/80 font-mono">
-              v2.0 • Sistema Integrado
+    <header className="glass border-b border-border/50 backdrop-blur-md bg-card/80 sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-neon">
+              <Shield className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">SIGEA</h1>
+              <p className="text-xs text-muted-foreground font-mono">
+                {user?.role === 'admin' ? 'Painel Administrativo' : 'Portal do Estudante'}
+              </p>
             </div>
           </div>
-        </div>
-        
-        <nav className="hidden md:flex space-x-6">
-          <Button variant="ghost" className="text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300 font-medium">
-            <span className="relative">
-              Dashboard
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></div>
-            </span>
-          </Button>
-          <Button variant="ghost" className="text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300 font-medium">
-            <span className="relative">
-              Frequência
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></div>
-            </span>
-          </Button>
-          <Button variant="ghost" className="text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300 font-medium">
-            <span className="relative">
-              Lanches
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></div>
-            </span>
-          </Button>
-        </nav>
-        
-        <div className="flex items-center space-x-3">
-          <NotificationSystem />
-          <ThemeToggle />
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300">
-            <User className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="md:hidden text-primary-foreground hover:bg-white/20 hover:shadow-neon transition-all duration-300">
-            <Menu className="h-5 w-5" />
-          </Button>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-secondary/10 rounded-full border border-secondary/20">
+              <User className="w-4 h-4 text-secondary" />
+              <span className="text-sm font-medium">{user?.name}</span>
+            </div>
+            <ThemeToggle />
+            <Button
+              onClick={logout}
+              variant="outline"
+              size="sm"
+              className="border-destructive/20 text-destructive hover:bg-destructive/10"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sair
+            </Button>
+          </div>
         </div>
       </div>
     </header>

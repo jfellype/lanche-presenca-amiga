@@ -1,127 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* Cyberpunk/Tech Theme - Light Mode */
-    --background: 240 10% 98%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 240 10% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 240 10% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    /* Electric Blue Primary */
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 217 91% 70%;
-    --primary-dark: 217 91% 45%;
-
-    /* Neon Green Secondary */
-    --secondary: 142 76% 55%;
-    --secondary-foreground: 240 10% 3.9%;
-    --secondary-glow: 142 76% 65%;
-    --secondary-dark: 142 76% 45%;
-
-    /* Purple Accent */
-    --accent: 271 91% 65%;
-    --accent-foreground: 0 0% 100%;
-    --accent-glow: 271 91% 75%;
-
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 217 91% 60%;
-
-    --radius: 0.75rem;
-
-    /* Tech Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 70%));
-    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 55%), hsl(142 76% 65%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 75%));
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(271 91% 65%) 50%, hsl(142 76% 55%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(240 10% 100% / 0.9), hsl(240 10% 100% / 0.6));
-    --gradient-mesh: radial-gradient(circle at 50% 50%, hsl(217 91% 60% / 0.1) 0%, transparent 50%),
-                     radial-gradient(circle at 80% 20%, hsl(142 76% 55% / 0.1) 0%, transparent 50%),
-                     radial-gradient(circle at 20% 80%, hsl(271 91% 65% / 0.1) 0%, transparent 50%);
+    /* Light mode - Clean Tech Theme */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
     
-    /* Neon Shadows */
-    --shadow-soft: 0 4px 20px hsl(217 91% 60% / 0.15);
-    --shadow-medium: 0 8px 30px hsl(217 91% 60% / 0.2);
-    --shadow-strong: 0 20px 40px hsl(217 91% 60% / 0.25);
-    --shadow-neon: 0 0 20px hsl(217 91% 60% / 0.5), 0 0 40px hsl(217 91% 60% / 0.3);
-    --shadow-neon-secondary: 0 0 20px hsl(142 76% 55% / 0.5), 0 0 40px hsl(142 76% 55% / 0.3);
-    --shadow-neon-accent: 0 0 20px hsl(271 91% 65% / 0.5), 0 0 40px hsl(271 91% 65% / 0.3);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Primary - Professional Blue */
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 221 83% 63%;
+    
+    /* Secondary - Success Green */
+    --secondary: 142 71% 45%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Accent - Modern Purple */
+    --accent: 262 83% 58%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Card and borders */
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+    
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Clean gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(221 83% 63%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(262 83% 58%), hsl(262 83% 68%));
+    --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%), hsl(262 83% 58%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.6));
+    
+    /* Subtle shadows */
+    --shadow-neon: 0 4px 20px hsl(221 83% 53% / 0.15);
+    --shadow-neon-secondary: 0 4px 20px hsl(142 71% 45% / 0.15);
+    --shadow-neon-accent: 0 4px 20px hsl(262 83% 58% / 0.15);
   }
 
   .dark {
-    /* Dark Cyberpunk Theme */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 217 91% 65%;
-    --primary-foreground: 240 10% 3.9%;
-    --primary-glow: 217 91% 75%;
-    --primary-dark: 217 91% 50%;
-
-    --secondary: 142 76% 60%;
-    --secondary-foreground: 240 10% 3.9%;
-    --secondary-glow: 142 76% 70%;
-    --secondary-dark: 142 76% 50%;
-
-    --accent: 271 91% 70%;
-    --accent-foreground: 240 10% 3.9%;
-    --accent-glow: 271 91% 80%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 217 91% 65%;
-
-    /* Dark Tech Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 65%), hsl(217 91% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 60%), hsl(142 76% 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 91% 70%), hsl(271 91% 80%));
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 65%) 0%, hsl(271 91% 70%) 50%, hsl(142 76% 60%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(240 10% 6% / 0.9), hsl(240 10% 6% / 0.6));
-    --gradient-mesh: radial-gradient(circle at 50% 50%, hsl(217 91% 65% / 0.2) 0%, transparent 50%),
-                     radial-gradient(circle at 80% 20%, hsl(142 76% 60% / 0.2) 0%, transparent 50%),
-                     radial-gradient(circle at 20% 80%, hsl(271 91% 70% / 0.2) 0%, transparent 50%);
+    /* Dark mode - Professional Dark */
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
     
-    /* Enhanced Dark Neon Shadows */
-    --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.4);
-    --shadow-medium: 0 8px 30px hsl(0 0% 0% / 0.5);
-    --shadow-strong: 0 20px 40px hsl(0 0% 0% / 0.6);
-    --shadow-neon: 0 0 20px hsl(217 91% 65% / 0.6), 0 0 40px hsl(217 91% 65% / 0.4), 0 0 80px hsl(217 91% 65% / 0.2);
-    --shadow-neon-secondary: 0 0 20px hsl(142 76% 60% / 0.6), 0 0 40px hsl(142 76% 60% / 0.4);
-    --shadow-neon-accent: 0 0 20px hsl(271 91% 70% / 0.6), 0 0 40px hsl(271 91% 70% / 0.4);
+    /* Primary - Bright Blue */
+    --primary: 217 91% 65%;
+    --primary-foreground: 222 84% 4.9%;
+    --primary-glow: 217 91% 75%;
+    
+    /* Secondary - Bright Green */
+    --secondary: 142 76% 50%;
+    --secondary-foreground: 222 84% 4.9%;
+    
+    /* Accent - Electric Purple */
+    --accent: 271 81% 60%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* Muted colors */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Card and borders */
+    --card: 222 84% 8%;
+    --card-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217 91% 65%;
+    
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Enhanced dark gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 65%), hsl(217 91% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 50%), hsl(142 76% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(271 81% 60%), hsl(271 81% 70%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 65%), hsl(271 81% 60%));
+    --gradient-card: linear-gradient(145deg, hsl(222 84% 8% / 0.9), hsl(222 84% 12% / 0.6));
+    
+    /* Glowing shadows for dark mode */
+    --shadow-neon: 0 8px 25px hsl(217 91% 65% / 0.25);
+    --shadow-neon-secondary: 0 8px 25px hsl(142 76% 50% / 0.25);
+    --shadow-neon-accent: 0 8px 25px hsl(271 81% 60% / 0.25);
   }
 }
 
@@ -129,68 +102,31 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
+  
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background-image: var(--gradient-mesh);
-    background-attachment: fixed;
-    min-height: 100vh;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
+  html {
+    scroll-behavior: smooth;
   }
-  
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary));
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary-dark));
-  }
+}
 
-  /* Neon glow effects */
-  .glow-primary {
-    box-shadow: var(--shadow-neon);
-  }
-  
-  .glow-secondary {
-    box-shadow: var(--shadow-neon-secondary);
-  }
-  
-  .glow-accent {
-    box-shadow: var(--shadow-neon-accent);
-  }
-
-  /* Animated background elements */
-  .tech-grid {
-    background-image: 
-      linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: grid-move 20s linear infinite;
-  }
-
-  @keyframes grid-move {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-
-  /* Glassmorphism effect */
+@layer components {
+  /* Clean glass effect */
   .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    @apply backdrop-blur-md bg-opacity-80 border border-opacity-50;
+    backdrop-filter: blur(8px) saturate(120%);
+    background: var(--gradient-card);
   }
-
-  .dark .glass {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* Subtle hover effects */
+  .hover-lift {
+    @apply transition-transform duration-200 hover:scale-[1.02];
+  }
+  
+  .hover-glow {
+    @apply transition-shadow duration-200 hover:shadow-neon;
   }
 }

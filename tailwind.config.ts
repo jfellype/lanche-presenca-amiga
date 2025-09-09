@@ -131,15 +131,12 @@ export default {
 					'100%': { transform: 'rotate(360deg)' }
 				}
 			},
-			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.5s ease-out',
-				'slide-up': 'slide-up 0.6s ease-out',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'float': 'float 3s ease-in-out infinite',
-				'glow-rotate': 'glow-rotate 8s linear infinite'
-			}
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.2s ease-out",
+        "scale-in": "scale-in 0.15s ease-out",
+      },
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
