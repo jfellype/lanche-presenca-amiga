@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    /* Light mode - Clean Tech Theme */
-    --background: 0 0% 100%;
-    --foreground: 222 84% 4.9%;
+    /* Light mode - Soft Eye-Friendly Theme */
+    --background: 220 20% 97%;
+    --foreground: 220 15% 15%;
     
-    /* Primary - Professional Blue */
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 221 83% 63%;
+    /* Primary - Soft Professional Blue */
+    --primary: 220 70% 50%;
+    --primary-foreground: 220 20% 97%;
+    --primary-glow: 220 70% 60%;
     
-    /* Secondary - Success Green */
-    --secondary: 142 71% 45%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - Gentle Green */
+    --secondary: 145 60% 42%;
+    --secondary-foreground: 220 20% 97%;
     
-    /* Accent - Modern Purple */
-    --accent: 262 83% 58%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent - Calm Purple */
+    --accent: 260 70% 55%;
+    --accent-foreground: 220 20% 97%;
     
-    /* Muted colors */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted colors - Softer contrasts */
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
     
-    /* Card and borders */
-    --card: 0 0% 100%;
-    --card-foreground: 222 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    /* Card and borders - Warmer tones */
+    --card: 220 25% 98%;
+    --card-foreground: 220 15% 15%;
+    --border: 220 15% 88%;
+    --input: 220 15% 90%;
+    --ring: 220 70% 50%;
     
     /* Destructive */
     --destructive: 0 84.2% 60.2%;

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, LogOut, User } from "lucide-react";
+import { GraduationCap, LogOut, User } from "lucide-react";
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -12,7 +12,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-neon">
-              <Shield className="w-6 h-6 text-primary-foreground" />
+              <GraduationCap className="w-6 h-6 text-primary-foreground" />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse border-2 border-background"></div>
             </div>
             <div className="ml-6">

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UserCog, GraduationCap, Shield, BookOpen } from "lucide-react";
+import { UserCog, GraduationCap, BookOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
         <div className="text-center">
           <div className="flex items-center justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center shadow-neon">
-              <Shield className="w-8 h-8 text-primary-foreground" />
+              <GraduationCap className="w-8 h-8 text-primary-foreground" />
             </div>
           </div>
           <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent">SIGEA</h1>
