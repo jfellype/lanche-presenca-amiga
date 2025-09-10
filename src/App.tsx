@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Login from "@/components/Login";
 import AdminDashboard from "@/pages/AdminDashboard";
 import StudentPortal from "@/pages/StudentPortal";
+import TeacherDashboard from "@/pages/TeacherDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,8 +23,13 @@ const AppContent = () => {
   return (
     <Routes>
       <Route path="/" element={
-        user?.role === 'admin' ? <AdminDashboard /> : <StudentPortal />
+        user?.role === 'admin' ? <AdminDashboard /> : 
+        user?.role === 'teacher' ? <TeacherDashboard /> : 
+        <StudentPortal />
       } />
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/teacher" element={<TeacherDashboard />} />
+      <Route path="/student" element={<StudentPortal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -16,7 +16,7 @@ export const useAuth = () => {
     });
   }, [authData]);
 
-  const login = (role: 'admin' | 'student') => {
+  const login = (role: 'admin' | 'teacher' | 'student') => {
     const user = loginUser(role);
     setAuthData(user);
     setAuthState({

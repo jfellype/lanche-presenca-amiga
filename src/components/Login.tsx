@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UserCog, GraduationCap, Shield } from "lucide-react";
+import { UserCog, GraduationCap, Shield, BookOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
@@ -27,31 +27,46 @@ const Login = () => {
           <CardContent className="space-y-4">
             <Button 
               onClick={() => login('admin')} 
-              className="w-full h-14 bg-gradient-primary hover:shadow-neon transition-all text-lg font-medium"
+              className="w-full h-16 bg-gradient-primary hover:shadow-neon transition-all text-lg font-medium hover:scale-105"
             >
-              <UserCog className="w-6 h-6 mr-3" />
-              <div className="text-left">
-                <div>Administrador</div>
-                <div className="text-xs opacity-80">Painel completo de gestão</div>
+              <UserCog className="w-6 h-6 mr-4" />
+              <div className="text-left flex-1">
+                <div className="font-bold">Administrador</div>
+                <div className="text-xs opacity-90">Gestão completa do sistema</div>
+              </div>
+            </Button>
+            
+            <Button 
+              onClick={() => login('teacher')} 
+              variant="outline"
+              className="w-full h-16 border-accent hover:bg-accent/10 hover:border-accent transition-all text-lg font-medium hover:scale-105"
+            >
+              <BookOpen className="w-6 h-6 mr-4 text-accent" />
+              <div className="text-left flex-1">
+                <div className="font-bold">Professor</div>
+                <div className="text-xs opacity-80">Portal educacional</div>
               </div>
             </Button>
             
             <Button 
               onClick={() => login('student')} 
               variant="outline"
-              className="w-full h-14 border-secondary hover:bg-secondary/10 hover:border-secondary transition-all text-lg font-medium"
+              className="w-full h-16 border-secondary hover:bg-secondary/10 hover:border-secondary transition-all text-lg font-medium hover:scale-105"
             >
-              <GraduationCap className="w-6 h-6 mr-3 text-secondary" />
-              <div className="text-left">
-                <div>Estudante</div>
+              <GraduationCap className="w-6 h-6 mr-4 text-secondary" />
+              <div className="text-left flex-1">
+                <div className="font-bold">Estudante</div>
                 <div className="text-xs opacity-80">Portal do aluno</div>
               </div>
             </Button>
 
-            <div className="text-center pt-4">
-              <p className="text-xs text-muted-foreground">
-                🚀 Sistema em modo demonstração - Clique em qualquer opção para acessar
-              </p>
+            <div className="text-center pt-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-muted/50 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <p className="text-xs text-muted-foreground font-medium">
+                  Sistema em demonstração - Escolha seu perfil
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
