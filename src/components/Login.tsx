@@ -1,10 +1,28 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UserCog, GraduationCap, BookOpen } from "lucide-react";
+import { UserCog, GraduationCap, BookOpen, ChefHat } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = (role: 'admin' | 'teacher' | 'student') => {
+    login(role);
+    // Navegação programática sem reload da página
+    switch (role) {
+      case 'admin':
+        navigate('/admin', { replace: true });
+        break;
+      case 'teacher':
+        navigate('/teacher', { replace: true });
+        break;
+      case 'student':
+        navigate('/student', { replace: true });
+        break;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -26,7 +44,7 @@ const Login = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
-              onClick={() => login('admin')} 
+              onClick={() => handleLogin('admin')} 
               className="w-full h-16 bg-gradient-primary hover:shadow-neon transition-all text-lg font-medium hover:scale-105"
             >
               <UserCog className="w-6 h-6 mr-4" />
@@ -37,7 +55,7 @@ const Login = () => {
             </Button>
             
             <Button 
-              onClick={() => login('teacher')} 
+              onClick={() => handleLogin('teacher')} 
               variant="outline"
               className="w-full h-16 border-accent hover:bg-accent/10 hover:border-accent transition-all text-lg font-medium hover:scale-105"
             >
@@ -49,7 +67,7 @@ const Login = () => {
             </Button>
             
             <Button 
-              onClick={() => login('student')} 
+              onClick={() => handleLogin('student')} 
               variant="outline"
               className="w-full h-16 border-secondary hover:bg-secondary/10 hover:border-secondary transition-all text-lg font-medium hover:scale-105"
             >
@@ -57,6 +75,18 @@ const Login = () => {
               <div className="text-left flex-1">
                 <div className="font-bold">Estudante</div>
                 <div className="text-xs opacity-80">Portal do aluno</div>
+              </div>
+            </Button>
+
+            <Button 
+              onClick={() => navigate('/kitchen')} 
+              variant="outline"
+              className="w-full h-16 border-orange-500 hover:bg-orange-50 hover:border-orange-600 transition-all text-lg font-medium hover:scale-105"
+            >
+              <ChefHat className="w-6 h-6 mr-4 text-orange-500" />
+              <div className="text-left flex-1">
+                <div className="font-bold">Cozinha</div>
+                <div className="text-xs opacity-80">Gestão do cardápio</div>
               </div>
             </Button>
 
