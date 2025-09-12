@@ -79,7 +79,7 @@ const Login = () => {
             </Button>
 
             <Button 
-              onClick={() => navigate('/kitchen')} 
+              onClick={() => login('kitchen')} 
               variant="outline"
               className="w-full h-16 border-orange-500 hover:bg-orange-50 hover:border-orange-600 transition-all text-lg font-medium hover:scale-105"
             >

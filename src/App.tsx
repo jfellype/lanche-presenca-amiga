@@ -26,6 +26,7 @@ const AppContent = () => {
       <Route path="/" element={
         user?.role === 'admin' ? <AdminDashboard /> : 
         user?.role === 'teacher' ? <TeacherDashboard /> : 
+        user?.role === 'kitchen' ? <KitchenDashboard /> :
         <StudentPortal />
       } />
       <Route path="/admin" element={<AdminDashboard />} />
