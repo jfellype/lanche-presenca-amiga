@@ -34,7 +34,7 @@ const StudentPortal = () => {
               <User className="w-5 h-5 text-secondary-foreground" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-foreground">Olá, {user?.name}!</h2>
+              <h2 className="text-2xl font-bold text-foreground">Olá, {user?.full_name}!</h2>
               <p className="text-muted-foreground">Turma: {user?.class}</p>
             </div>
           </div>

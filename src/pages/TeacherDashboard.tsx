@@ -46,7 +46,7 @@ const TeacherDashboard = () => {
       <main className="container mx-auto px-4 py-6">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            Olá, {user?.name}! 👋
+            Olá, {user?.full_name}! 👋
           </h2>
           <p className="text-muted-foreground">
             {user?.subject} - Turma {user?.class}

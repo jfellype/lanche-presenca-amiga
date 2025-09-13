@@ -11,24 +11,35 @@ import StudentPortal from "@/pages/StudentPortal";
 import TeacherDashboard from "@/pages/TeacherDashboard";
 import KitchenDashboard from "@/pages/KitchenDashboard";
 import NotFound from "./pages/NotFound";
+import Auth from "@/components/Auth";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
+
+  if (loading) {
+    return null; // Initial splash handled by pages
+  }
 
   if (!isAuthenticated) {
-    return <Login />;
+    return (
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    );
   }
 
   return (
     <Routes>
       <Route path="/" element={
-        user?.role === 'admin' ? <AdminDashboard /> : 
-        user?.role === 'teacher' ? <TeacherDashboard /> : 
+        user?.role === 'admin' ? <AdminDashboard /> :
+        user?.role === 'teacher' ? <TeacherDashboard /> :
         user?.role === 'kitchen' ? <KitchenDashboard /> :
         <StudentPortal />
       } />
+      <Route path="/auth" element={<Auth />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/teacher" element={<TeacherDashboard />} />
       <Route path="/student" element={<StudentPortal />} />

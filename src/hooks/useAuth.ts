@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface User {
@@ -12,29 +12,23 @@ export interface User {
   subject?: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-}
-
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        if (session?.user) {
+    // Listener - keep synchronous and defer fetches
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      if (session?.user) {
+        const userId = session.user.id;
+        setTimeout(async () => {
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
+            .eq('id', userId)
+            .maybeSingle();
           if (profile) {
             setUser({
               id: profile.id,
@@ -43,25 +37,29 @@ export const useAuth = () => {
               role: profile.role,
               avatar_url: profile.avatar_url,
               class: profile.class,
-              subject: profile.subject
+              subject: profile.subject,
             });
+          } else {
+            setUser(null);
           }
-        } else {
-          setUser(null);
-        }
+          setLoading(false);
+        }, 0);
+      } else {
+        setUser(null);
         setLoading(false);
       }
-    );
+    });
 
-    // Check for existing session
+    // Initial session check AFTER listener
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session?.user) {
+        const userId = session.user.id;
         supabase
           .from('profiles')
           .select('*')
-          .eq('id', session.user.id)
-          .single()
+          .eq('id', userId)
+          .maybeSingle()
           .then(({ data: profile }) => {
             if (profile) {
               setUser({
@@ -71,7 +69,7 @@ export const useAuth = () => {
                 role: profile.role,
                 avatar_url: profile.avatar_url,
                 class: profile.class,
-                subject: profile.subject
+                subject: profile.subject,
               });
             }
             setLoading(false);
@@ -86,23 +84,19 @@ export const useAuth = () => {
 
   const signUp = async (email: string, password: string, userData: { full_name: string; role: string }) => {
     const redirectUrl = `${window.location.origin}/`;
-    
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl,
-        data: userData
-      }
+        data: userData,
+      },
     });
     return { error };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     return { error };
   };
 
@@ -116,12 +110,12 @@ export const useAuth = () => {
   };
 
   return {
-    user,
-    session,
+    user: user as User,
+    session: session as Session,
     loading,
     isAuthenticated: !!session,
     signUp,
     signIn,
-    signOut
+    signOut,
   };
 };

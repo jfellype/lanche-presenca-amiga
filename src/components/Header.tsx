@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { GraduationCap, LogOut, User } from "lucide-react";
 
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <header className="glass border-b border-border/50 backdrop-blur-md bg-card/80 sticky top-0 z-50">
@@ -28,11 +28,11 @@ const Header = () => {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-secondary/10 rounded-full border border-secondary/20">
               <User className="w-4 h-4 text-secondary" />
-              <span className="text-sm font-medium">{user?.name}</span>
+              <span className="text-sm font-medium">{user?.full_name}</span>
             </div>
             <ThemeToggle />
             <Button
-              onClick={logout}
+              onClick={signOut}
               variant="outline"
               size="sm"
               className="border-destructive/20 text-destructive hover:bg-destructive/10"
