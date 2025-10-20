@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import Login from "@/components/Login";
 import AdminDashboard from "@/pages/AdminDashboard";
@@ -12,6 +12,7 @@ import TeacherDashboard from "@/pages/TeacherDashboard";
 import KitchenDashboard from "@/pages/KitchenDashboard";
 import NotFound from "./pages/NotFound";
 import Auth from "@/components/Auth";
+import Profile from "@/pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,8 @@ const AppContent = () => {
         user?.role === 'kitchen' ? <KitchenDashboard /> :
         <StudentPortal />
       } />
-      <Route path="/auth" element={<Auth />} />
+      <Route path="/auth" element={<Navigate to="/" replace />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/teacher" element={<TeacherDashboard />} />
       <Route path="/student" element={<StudentPortal />} />

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +13,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, user, isAuthenticated } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const dashboardMap = {
+        admin: '/admin',
+        teacher: '/teacher',
+        student: '/student',
+        kitchen: '/kitchen'
+      };
+      navigate(dashboardMap[user.role as keyof typeof dashboardMap] || '/');
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const [loginData, setLoginData] = useState({
     email: "",

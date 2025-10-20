@@ -5,6 +5,7 @@ import AttendanceChart from "@/components/Dashboard/AttendanceChart";
 import LunchChart from "@/components/Dashboard/LunchChart";
 import StudentList from "@/components/Attendance/StudentList";
 import MenuManager from "@/components/Lunch/MenuManager";
+import WeeklyReports from "@/components/WeeklyReports";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
@@ -13,7 +14,8 @@ import {
   UtensilsCrossed,
   BarChart3,
   Calendar,
-  Settings
+  Settings,
+  TrendingUp
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -30,34 +32,41 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-card/80 glass shadow-sm border border-border/50">
+          <TabsList className="grid w-full grid-cols-5 bg-card/80 glass shadow-sm border border-border/50">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <BarChart3 className="h-4 w-4" />
-              Visão Geral
+              <span className="hidden sm:inline">Visão Geral</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="reports" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <TrendingUp className="h-4 w-4" />
+              <span className="hidden sm:inline">Relatórios</span>
             </TabsTrigger>
             <TabsTrigger 
               value="attendance" 
               className="flex items-center gap-2 data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground"
             >
               <Calendar className="h-4 w-4" />
-              Frequência
+              <span className="hidden sm:inline">Frequência</span>
             </TabsTrigger>
             <TabsTrigger 
               value="lunch" 
               className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
             >
               <UtensilsCrossed className="h-4 w-4" />
-              Alimentação
+              <span className="hidden sm:inline">Alimentação</span>
             </TabsTrigger>
             <TabsTrigger 
               value="settings" 
               className="flex items-center gap-2 data-[state=active]:bg-muted data-[state=active]:text-muted-foreground"
             >
               <Settings className="h-4 w-4" />
-              Configurações
+              <span className="hidden sm:inline">Configurações</span>
             </TabsTrigger>
           </TabsList>
 
@@ -101,6 +110,10 @@ const AdminDashboard = () => {
               <AttendanceChart />
               <LunchChart />
             </div>
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <WeeklyReports />
           </TabsContent>
 
           <TabsContent value="attendance">
