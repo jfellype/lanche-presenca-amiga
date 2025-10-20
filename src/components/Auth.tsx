@@ -1,282 +1,264 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { GraduationCap, Eye, EyeOff } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2, GraduationCap } from "lucide-react";
+import sigeaLogo from "@/assets/sigea-logo.png";
 
 const Auth = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { signIn, signUp, user, isAuthenticated } = useAuth();
-  const { toast } = useToast();
+  const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("signin");
+
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    full_name: "",
+    role: "student",
+  });
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      const dashboardMap = {
+    if (user) {
+      const roleRoutes = {
         admin: '/admin',
         teacher: '/teacher',
         student: '/student',
-        kitchen: '/kitchen'
+        kitchen: '/kitchen',
+        library: '/library'
       };
-      navigate(dashboardMap[user.role as keyof typeof dashboardMap] || '/');
+      
+      const from = location.state?.from?.pathname;
+      const targetRoute = from || roleRoutes[user.role as keyof typeof roleRoutes] || '/';
+      
+      navigate(targetRoute, { replace: true });
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [user, navigate, location]);
 
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: ""
-  });
-
-  const [signupData, setSignupData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    full_name: "",
-    role: ""
-  });
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await signIn(loginData.email, loginData.password);
-    
+    const { error } = await signIn(signInData.email, signInData.password);
+
     if (error) {
+      let errorMessage = error.message;
+      
+      if (error.message.includes('Invalid login credentials')) {
+        errorMessage = 'Email ou senha incorretos. Verifique seus dados e tente novamente.';
+      } else if (error.message.includes('Email not confirmed')) {
+        errorMessage = 'Por favor, confirme seu email antes de fazer login.';
+      }
+      
       toast({
-        title: "Erro no login",
-        description: error.message,
-        variant: "destructive"
+        title: "Erro ao fazer login",
+        description: errorMessage,
+        variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Login realizado!",
-        description: "Bem-vindo ao SIGEA"
-      });
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (signupData.password !== signupData.confirmPassword) {
-      toast({
-        title: "Erro",
-        description: "As senhas não coincidem",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!signupData.role) {
-      toast({
-        title: "Erro",
-        description: "Selecione um tipo de usuário",
-        variant: "destructive"
-      });
-      return;
-    }
-
     setLoading(true);
 
-    const { error } = await signUp(signupData.email, signupData.password, {
-      full_name: signupData.full_name,
-      role: signupData.role
+    const { error } = await signUp(signUpData.email, signUpData.password, {
+      full_name: signUpData.full_name,
+      role: signUpData.role
     });
-    
+
     if (error) {
       toast({
         title: "Erro no cadastro",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
+      setLoading(false);
     } else {
       toast({
         title: "Cadastro realizado!",
-        description: "Verifique seu email para confirmar a conta"
+        description: "Bem-vindo ao SIGEA! Redirecionando...",
       });
     }
-    
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center shadow-neon">
-              <GraduationCap className="w-8 h-8 text-primary-foreground" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4 animate-slide-in">
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <Card className="w-full max-w-md glass border-primary/30 hover-glow relative z-10 smooth-transition">
+        <CardHeader className="space-y-4 text-center">
+          <div className="flex justify-center">
+            <div className="relative w-24 h-24 hover-lift">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-2xl" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full animate-pulse border-2 border-background"></div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent">SIGEA</h1>
-          <p className="text-muted-foreground mt-2">Sistema Integrado de Gestão Educacional</p>
-        </div>
+          <div>
+            <CardTitle className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+              SIGEA
+            </CardTitle>
+            <CardDescription className="mt-2 text-base">Gestão Escolar & Culinária</CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/50">
+              <TabsTrigger value="signin" className="smooth-transition data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground">
+                Entrar
+              </TabsTrigger>
+              <TabsTrigger value="signup" className="smooth-transition data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground">
+                Cadastrar
+              </TabsTrigger>
+            </TabsList>
 
-        <Card className="glass border-primary/20 shadow-neon">
-          <CardHeader className="text-center">
-            <CardTitle>Acesso ao Sistema</CardTitle>
-            <CardDescription>Entre ou cadastre-se para continuar</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Entrar</TabsTrigger>
-                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="login" className="space-y-4">
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="seu@email.com"
-                      value={loginData.email}
-                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Senha</Label>
-                    <div className="relative">
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        value={loginData.password}
-                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                        required
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4" />
-                        ) : (
-                          <Eye className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-primary hover:shadow-neon transition-all" 
-                    disabled={loading}
+            <TabsContent value="signin" className="space-y-6">
+              <form onSubmit={handleSignIn} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email" className="text-sm font-medium">Email</Label>
+                  <Input
+                    id="signin-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={signInData.email}
+                    onChange={(e) =>
+                      setSignInData({ ...signInData, email: e.target.value })
+                    }
+                    className="smooth-transition focus:border-primary focus:ring-primary"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-password" className="text-sm font-medium">Senha</Label>
+                  <Input
+                    id="signin-password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={signInData.password}
+                    onChange={(e) =>
+                      setSignInData({ ...signInData, password: e.target.value })
+                    }
+                    className="smooth-transition focus:border-primary focus:ring-primary"
+                    required
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-primary hover:shadow-neon smooth-transition hover-lift text-primary-foreground font-semibold"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Entrando...
+                    </>
+                  ) : (
+                    <>
+                      <GraduationCap className="mr-2 h-5 w-5" />
+                      Entrar no Sistema
+                    </>
+                  )}
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="signup" className="space-y-6">
+              <form onSubmit={handleSignUp} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-name" className="text-sm font-medium">Nome Completo</Label>
+                  <Input
+                    id="signup-name"
+                    type="text"
+                    placeholder="Seu nome completo"
+                    value={signUpData.full_name}
+                    onChange={(e) =>
+                      setSignUpData({ ...signUpData, full_name: e.target.value })
+                    }
+                    className="smooth-transition focus:border-primary focus:ring-primary"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email" className="text-sm font-medium">Email</Label>
+                  <Input
+                    id="signup-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={signUpData.email}
+                    onChange={(e) =>
+                      setSignUpData({ ...signUpData, email: e.target.value })
+                    }
+                    className="smooth-transition focus:border-primary focus:ring-primary"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password" className="text-sm font-medium">Senha</Label>
+                  <Input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Mínimo 6 caracteres"
+                    value={signUpData.password}
+                    onChange={(e) =>
+                      setSignUpData({ ...signUpData, password: e.target.value })
+                    }
+                    className="smooth-transition focus:border-primary focus:ring-primary"
+                    required
+                    minLength={6}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-role" className="text-sm font-medium">Tipo de Conta</Label>
+                  <select
+                    id="signup-role"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background smooth-transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus:border-primary"
+                    value={signUpData.role}
+                    onChange={(e) =>
+                      setSignUpData({ ...signUpData, role: e.target.value })
+                    }
+                    required
                   >
-                    {loading ? "Entrando..." : "Entrar"}
-                  </Button>
-                </form>
-              </TabsContent>
-              
-              <TabsContent value="signup" className="space-y-4">
-                <form onSubmit={handleSignup} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Nome Completo</Label>
-                    <Input
-                      id="signup-name"
-                      type="text"
-                      placeholder="Seu nome completo"
-                      value={signupData.full_name}
-                      onChange={(e) => setSignupData({ ...signupData, full_name: e.target.value })}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
-                    <Input
-                      id="signup-email"
-                      type="email"
-                      placeholder="seu@email.com"
-                      value={signupData.email}
-                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="role">Tipo de Usuário</Label>
-                    <Select value={signupData.role} onValueChange={(value) => setSignupData({ ...signupData, role: value })}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione seu tipo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="admin">Administrador</SelectItem>
-                        <SelectItem value="teacher">Professor</SelectItem>
-                        <SelectItem value="student">Estudante</SelectItem>
-                        <SelectItem value="kitchen">Cozinha</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Senha</Label>
-                    <div className="relative">
-                      <Input
-                        id="signup-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        value={signupData.password}
-                        onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-                        required
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4" />
-                        ) : (
-                          <Eye className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-password">Confirmar Senha</Label>
-                    <Input
-                      id="confirm-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={signupData.confirmPassword}
-                      onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
-                      required
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-primary hover:shadow-neon transition-all" 
-                    disabled={loading}
-                  >
-                    {loading ? "Cadastrando..." : "Cadastrar"}
-                  </Button>
-                </form>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
-      </div>
+                    <option value="student">🎓 Estudante</option>
+                    <option value="teacher">👨‍🏫 Professor</option>
+                    <option value="admin">⚙️ Administrador</option>
+                    <option value="kitchen">🍳 Cozinha</option>
+                    <option value="library">📚 Biblioteca</option>
+                  </select>
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-accent hover:shadow-neon smooth-transition hover-lift text-accent-foreground font-semibold"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Cadastrando...
+                    </>
+                  ) : (
+                    <>
+                      <GraduationCap className="mr-2 h-5 w-5" />
+                      Criar Conta
+                    </>
+                  )}
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 };

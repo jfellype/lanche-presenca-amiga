@@ -6,95 +6,106 @@
 
 @layer base {
   :root {
-    /* Light mode - Soft Eye-Friendly Theme */
-    --background: 220 20% 97%;
-    --foreground: 220 15% 15%;
+    /* Cores baseadas no logo SIGEA */
+    --background: 210 40% 98%;
+    --foreground: 210 50% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 15%;
     
-    /* Primary - Soft Professional Blue */
-    --primary: 220 70% 50%;
-    --primary-foreground: 220 20% 97%;
-    --primary-glow: 220 70% 60%;
+    /* Primary - Azul escuro do logo */
+    --primary: 210 50% 30%;
+    --primary-foreground: 210 40% 98%;
+    --primary-hover: 210 50% 25%;
     
-    /* Secondary - Gentle Green */
-    --secondary: 145 60% 42%;
-    --secondary-foreground: 220 20% 97%;
+    /* Secondary - Azul claro do logo */
+    --secondary: 205 60% 60%;
+    --secondary-foreground: 210 50% 15%;
     
-    /* Accent - Calm Purple */
-    --accent: 260 70% 55%;
-    --accent-foreground: 220 20% 97%;
+    /* Accent - Verde do logo */
+    --accent: 88 50% 55%;
+    --accent-foreground: 210 50% 15%;
     
-    /* Muted colors - Softer contrasts */
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 45%;
+    /* Orange - Laranja do logo */
+    --orange: 25 95% 68%;
+    --orange-foreground: 210 50% 15%;
     
-    /* Card and borders - Warmer tones */
-    --card: 220 25% 98%;
-    --card-foreground: 220 15% 15%;
-    --border: 220 15% 88%;
-    --input: 220 15% 90%;
-    --ring: 220 70% 50%;
-    
-    /* Destructive */
+    --muted: 210 40% 96%;
+    --muted-foreground: 210 20% 40%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+    --border: 210 30% 90%;
+    --input: 210 30% 92%;
+    --ring: 210 50% 30%;
+    --radius: 0.75rem;
     
-    /* Clean gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(221 83% 63%));
-    --gradient-secondary: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(262 83% 58%), hsl(262 83% 68%));
-    --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%), hsl(262 83% 58%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.6));
+    --chart-1: 205 60% 60%;
+    --chart-2: 88 50% 55%;
+    --chart-3: 25 95% 68%;
+    --chart-4: 210 50% 30%;
+    --chart-5: 45 95% 65%;
+
+    /* Gradients baseados no logo */
+    --gradient-primary: linear-gradient(135deg, hsl(210, 50%, 30%) 0%, hsl(205, 60%, 60%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(210, 50%, 30%) 0%, hsl(205, 60%, 60%) 50%, hsl(88, 50%, 55%) 100%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(88, 50%, 55%) 0%, hsl(25, 95%, 68%) 100%);
     
-    /* Subtle shadows */
-    --shadow-neon: 0 4px 20px hsl(221 83% 53% / 0.15);
-    --shadow-neon-secondary: 0 4px 20px hsl(142 71% 45% / 0.15);
-    --shadow-neon-accent: 0 4px 20px hsl(262 83% 58% / 0.15);
+    /* Neon shadows */
+    --shadow-neon: 0 0 30px hsl(205, 60%, 60%, 0.4);
+    --shadow-glow: 0 4px 20px hsl(210, 50%, 30%, 0.15);
   }
 
   .dark {
-    /* Dark mode - Professional Dark */
-    --background: 222 84% 4.9%;
+    /* Modo escuro profissional */
+    --background: 210 50% 8%;
     --foreground: 210 40% 98%;
-    
-    /* Primary - Bright Blue */
-    --primary: 217 91% 65%;
-    --primary-foreground: 222 84% 4.9%;
-    --primary-glow: 217 91% 75%;
-    
-    /* Secondary - Bright Green */
-    --secondary: 142 76% 50%;
-    --secondary-foreground: 222 84% 4.9%;
-    
-    /* Accent - Electric Purple */
-    --accent: 271 81% 60%;
-    --accent-foreground: 210 40% 98%;
-    
-    /* Muted colors */
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    /* Card and borders */
-    --card: 222 84% 8%;
+    --card: 210 45% 12%;
     --card-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 65%;
+    --popover: 210 45% 12%;
+    --popover-foreground: 210 40% 98%;
     
-    /* Destructive */
-    --destructive: 0 84.2% 60.2%;
+    /* Primary - Azul claro brilhante no escuro */
+    --primary: 205 80% 65%;
+    --primary-foreground: 210 50% 10%;
+    --primary-hover: 205 80% 70%;
+    
+    /* Secondary - Azul médio */
+    --secondary: 210 40% 25%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Accent - Verde vibrante */
+    --accent: 88 60% 60%;
+    --accent-foreground: 210 50% 10%;
+    
+    /* Orange - Laranja vibrante */
+    --orange: 25 95% 70%;
+    --orange-foreground: 210 50% 10%;
+    
+    --muted: 210 40% 18%;
+    --muted-foreground: 210 20% 65%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 210 40% 98%;
+    --border: 210 40% 20%;
+    --input: 210 40% 20%;
+    --ring: 205 80% 65%;
     
-    /* Enhanced dark gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 65%), hsl(217 91% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(142 76% 50%), hsl(142 76% 60%));
-    --gradient-accent: linear-gradient(135deg, hsl(271 81% 60%), hsl(271 81% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 65%), hsl(271 81% 60%));
-    --gradient-card: linear-gradient(145deg, hsl(222 84% 8% / 0.9), hsl(222 84% 12% / 0.6));
+    --chart-1: 205 80% 65%;
+    --chart-2: 88 60% 60%;
+    --chart-3: 25 95% 70%;
+    --chart-4: 210 60% 50%;
+    --chart-5: 45 90% 65%;
+
+    /* Gradients escuros vibrantes */
+    --gradient-primary: linear-gradient(135deg, hsl(210, 60%, 35%) 0%, hsl(205, 80%, 65%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(210, 60%, 35%) 0%, hsl(205, 80%, 65%) 50%, hsl(88, 60%, 60%) 100%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(88, 60%, 60%) 0%, hsl(25, 95%, 70%) 100%);
     
-    /* Glowing shadows for dark mode */
-    --shadow-neon: 0 8px 25px hsl(217 91% 65% / 0.25);
-    --shadow-neon-secondary: 0 8px 25px hsl(142 76% 50% / 0.25);
-    --shadow-neon-accent: 0 8px 25px hsl(271 81% 60% / 0.25);
+    /* Neon shadows brilhantes */
+    --shadow-neon: 0 0 40px hsl(205, 80%, 65%, 0.5), 0 0 80px hsl(205, 80%, 65%, 0.2);
+    --shadow-glow: 0 4px 30px hsl(205, 80%, 65%, 0.3);
   }
 }
 
@@ -114,19 +125,48 @@
 }
 
 @layer components {
-  /* Clean glass effect */
   .glass {
-    @apply backdrop-blur-md bg-opacity-80 border border-opacity-50;
-    backdrop-filter: blur(8px) saturate(120%);
     background: var(--gradient-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-glow);
   }
-  
-  /* Subtle hover effects */
+
   .hover-lift {
-    @apply transition-transform duration-200 hover:scale-[1.02];
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  .hover-lift:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-neon);
+  }
+
   .hover-glow {
-    @apply transition-shadow duration-200 hover:shadow-neon;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-neon);
+    border-color: hsl(var(--primary));
+  }
+
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
