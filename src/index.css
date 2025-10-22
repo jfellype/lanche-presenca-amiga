@@ -6,106 +6,106 @@
 
 @layer base {
   :root {
-    /* Cores baseadas no novo logo SIGEA - Dark blue background, light blue/purple book */
+    /* Cores baseadas no logo SIGEA - Navy blue, Light blue, Green, Orange */
     --background: 0 0% 98%;
-    --foreground: 222 47% 11%;
+    --foreground: 205 45% 25%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 205 45% 25%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 205 45% 25%;
     
-    /* Primary - Dark navy blue from logo background */
-    --primary: 222 47% 11%;
-    --primary-foreground: 210 40% 98%;
-    --primary-hover: 222 47% 15%;
+    /* Primary - Navy blue do texto SIGEA e chapéu de formatura */
+    --primary: 205 45% 25%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 205 45% 20%;
     
-    /* Secondary - Light blue/purple from the book */
-    --secondary: 225 73% 70%;
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary - Light blue do círculo e detalhes */
+    --secondary: 202 50% 65%;
+    --secondary-foreground: 205 45% 25%;
     
-    /* Accent - Golden/wheat from the laurels */
-    --accent: 40 80% 60%;
-    --accent-foreground: 222 47% 11%;
+    /* Accent - Green/lime do livro */
+    --accent: 80 55% 55%;
+    --accent-foreground: 205 45% 25%;
     
-    /* Orange - Food/utensil accent */
-    --orange: 25 90% 60%;
-    --orange-foreground: 222 47% 11%;
+    /* Orange - Laranja da panela/comida */
+    --orange: 20 90% 60%;
+    --orange-foreground: 0 0% 100%;
     
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 20% 50%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 222 47% 11%;
+    --ring: 205 45% 25%;
     --radius: 0.75rem;
     
-    --chart-1: 225 73% 70%;
-    --chart-2: 40 80% 60%;
-    --chart-3: 25 90% 60%;
-    --chart-4: 222 47% 11%;
-    --chart-5: 200 70% 65%;
+    --chart-1: 202 50% 65%;
+    --chart-2: 80 55% 55%;
+    --chart-3: 20 90% 60%;
+    --chart-4: 205 45% 25%;
+    --chart-5: 200 70% 70%;
 
-    /* Gradients baseados no novo logo */
-    --gradient-primary: linear-gradient(135deg, hsl(222, 47%, 11%) 0%, hsl(225, 73%, 70%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(222, 47%, 11%) 0%, hsl(225, 73%, 70%) 50%, hsl(40, 80%, 60%) 100%);
-    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(225, 73%, 70%) 0%, hsl(40, 80%, 60%) 100%);
+    /* Gradients baseados no logo */
+    --gradient-primary: linear-gradient(135deg, hsl(205, 45%, 25%) 0%, hsl(202, 50%, 65%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(205, 45%, 25%) 0%, hsl(202, 50%, 65%) 50%, hsl(80, 55%, 55%) 100%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(202, 50%, 65%) 0%, hsl(80, 55%, 55%) 100%);
     
     /* Enhanced shadows */
-    --shadow-neon: 0 0 30px hsl(225, 73%, 70%, 0.5);
-    --shadow-glow: 0 4px 20px hsl(222, 47%, 11%, 0.15);
+    --shadow-neon: 0 0 30px hsl(202, 50%, 65%, 0.4);
+    --shadow-glow: 0 4px 20px hsl(205, 45%, 25%, 0.15);
   }
 
   .dark {
-    /* Dark mode matching the logo's dark background */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 15%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 15%;
-    --popover-foreground: 210 40% 98%;
+    /* Dark mode com cores vibrantes do logo */
+    --background: 205 45% 15%;
+    --foreground: 0 0% 98%;
+    --card: 205 45% 20%;
+    --card-foreground: 0 0% 98%;
+    --popover: 205 45% 20%;
+    --popover-foreground: 0 0% 98%;
     
-    /* Primary - Light blue/purple from book (vibrant in dark) */
-    --primary: 225 73% 70%;
-    --primary-foreground: 222 47% 11%;
-    --primary-hover: 225 73% 75%;
+    /* Primary - Light blue vibrante para dark mode */
+    --primary: 202 60% 70%;
+    --primary-foreground: 205 45% 15%;
+    --primary-hover: 202 60% 75%;
     
-    /* Secondary - Lighter variant */
-    --secondary: 225 60% 55%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - Mais claro no dark mode */
+    --secondary: 202 50% 60%;
+    --secondary-foreground: 0 0% 98%;
     
-    /* Accent - Golden vibrant */
-    --accent: 40 90% 65%;
-    --accent-foreground: 222 47% 11%;
+    /* Accent - Green vibrante */
+    --accent: 80 60% 60%;
+    --accent-foreground: 205 45% 15%;
     
-    /* Orange - Food accent vibrant */
-    --orange: 25 95% 65%;
-    --orange-foreground: 222 47% 11%;
+    /* Orange - Laranja vibrante */
+    --orange: 20 95% 65%;
+    --orange-foreground: 205 45% 15%;
     
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 205 40% 25%;
+    --muted-foreground: 210 20% 70%;
     --destructive: 0 70% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
-    --ring: 225 73% 70%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 205 40% 30%;
+    --input: 205 40% 30%;
+    --ring: 202 60% 70%;
     
-    --chart-1: 225 73% 70%;
-    --chart-2: 40 90% 65%;
-    --chart-3: 25 95% 65%;
-    --chart-4: 200 70% 65%;
-    --chart-5: 280 60% 65%;
+    --chart-1: 202 60% 70%;
+    --chart-2: 80 60% 60%;
+    --chart-3: 20 95% 65%;
+    --chart-4: 205 45% 40%;
+    --chart-5: 200 70% 65%;
 
-    /* Dark mode gradients - vibrant glow effect */
-    --gradient-primary: linear-gradient(135deg, hsl(222, 47%, 20%) 0%, hsl(225, 73%, 70%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(222, 47%, 20%) 0%, hsl(225, 73%, 70%) 50%, hsl(40, 90%, 65%) 100%);
-    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(225, 73%, 70%) 0%, hsl(40, 90%, 65%) 100%);
+    /* Dark mode gradients - brilho vibrante */
+    --gradient-primary: linear-gradient(135deg, hsl(205, 45%, 25%) 0%, hsl(202, 60%, 70%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(205, 45%, 25%) 0%, hsl(202, 60%, 70%) 50%, hsl(80, 60%, 60%) 100%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(202, 60%, 70%) 0%, hsl(80, 60%, 60%) 100%);
     
-    /* Enhanced neon shadows for dark mode */
-    --shadow-neon: 0 0 40px hsl(225, 73%, 70%, 0.6), 0 0 80px hsl(225, 73%, 70%, 0.3);
-    --shadow-glow: 0 4px 30px hsl(225, 73%, 70%, 0.4);
+    /* Enhanced neon shadows para dark mode */
+    --shadow-neon: 0 0 40px hsl(202, 60%, 70%, 0.5), 0 0 80px hsl(202, 60%, 70%, 0.3);
+    --shadow-glow: 0 4px 30px hsl(202, 60%, 70%, 0.35);
   }
 }
 
