@@ -14,10 +14,10 @@ const Header = () => {
     <header className="glass border-b border-border/50 backdrop-blur-md sticky top-0 z-50 smooth-transition">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="relative w-14 h-14 hover-lift">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse border-2 border-background"></div>
+          <div className="flex items-center gap-4 cursor-pointer hover-lift smooth-transition" onClick={() => navigate('/')}>
+            <div className="relative w-14 h-14">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-lg" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse border-2 border-background shadow-neon"></div>
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent tracking-tight">SIGEA</h1>

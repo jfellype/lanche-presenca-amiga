@@ -32,7 +32,7 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-card/80 glass shadow-sm border border-border/50">
+          <TabsList className="grid w-full grid-cols-6 bg-card/80 glass shadow-sm border border-border/50">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
@@ -48,6 +48,13 @@ const AdminDashboard = () => {
               <span className="hidden sm:inline">Relatórios</span>
             </TabsTrigger>
             <TabsTrigger 
+              value="kitchen" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <UtensilsCrossed className="h-4 w-4" />
+              <span className="hidden sm:inline">Cozinha</span>
+            </TabsTrigger>
+            <TabsTrigger
               value="attendance" 
               className="flex items-center gap-2 data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground"
             >
@@ -114,6 +121,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="reports">
             <WeeklyReports />
+          </TabsContent>
+
+          <TabsContent value="kitchen">
+            <MenuManager />
           </TabsContent>
 
           <TabsContent value="attendance">

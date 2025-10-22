@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "@/components/Header";
+import StudentMenuSelection from "@/components/StudentMenuSelection";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -82,72 +83,9 @@ const StudentPortal = () => {
         </div>
 
         {/* Menu do Dia */}
-        <Card className="mt-6 glass bg-card border-border shadow-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <UtensilsCrossed className="h-5 w-5 text-accent" />
-              Menu de Hoje
-            </CardTitle>
-            <CardDescription>Escolha suas opções para o almoço</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {mockMenuItems.map((item) => (
-              <div 
-                key={item.id} 
-                className={`p-4 rounded-lg border transition-all cursor-pointer ${
-                  selectedMeal === item.id 
-                    ? 'border-accent bg-accent/10' 
-                    : 'border-border hover:border-accent/50'
-                }`}
-                onClick={() => setSelectedMeal(item.id)}
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{item.name}</h4>
-                      <Badge 
-                        variant={item.category === 'principal' ? 'default' : 'secondary'}
-                        className="text-xs"
-                      >
-                        {item.category}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-2">{item.description}</p>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span>{item.nutritionalInfo.calories} kcal</span>
-                      <span>{item.nutritionalInfo.protein}g proteína</span>
-                      <span>{item.nutritionalInfo.carbs}g carboidrato</span>
-                    </div>
-                    {item.allergens.length > 0 && (
-                      <div className="flex items-center gap-2 mt-2">
-                        <AlertCircle className="h-3 w-3 text-yellow-500" />
-                        <span className="text-xs text-yellow-600 dark:text-yellow-400">
-                          Contém: {item.allergens.join(', ')}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col items-center gap-1 ml-4">
-                    {item.available ? (
-                      <CheckCircle className="h-4 w-4 text-secondary" />
-                    ) : (
-                      <XCircle className="h-4 w-4 text-destructive" />
-                    )}
-                    <span className="text-xs text-muted-foreground">
-                      {item.available ? 'Disponível' : 'Indisponível'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            
-            {selectedMeal && (
-              <Button className="w-full mt-4 bg-gradient-accent">
-                Confirmar Seleção
-              </Button>
-            )}
-          </CardContent>
-        </Card>
+        <div className="mt-6">
+          <StudentMenuSelection />
+        </div>
 
         {/* Histórico Rápido */}
         <Card className="mt-6 glass bg-card border-border shadow-sm">

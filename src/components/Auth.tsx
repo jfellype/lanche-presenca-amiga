@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, GraduationCap } from "lucide-react";
+import { Loader2, GraduationCap, Mail, Lock, User, ArrowLeft } from "lucide-react";
 import sigeaLogo from "@/assets/sigea-logo.png";
 
 const Auth = () => {
@@ -17,6 +18,7 @@ const Auth = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("signin");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -26,9 +28,12 @@ const Auth = () => {
   const [signUpData, setSignUpData] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
     full_name: "",
     role: "student",
   });
+
+  const [forgotEmail, setForgotEmail] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -73,6 +78,25 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (signUpData.password !== signUpData.confirmPassword) {
+      toast({
+        title: "Erro no cadastro",
+        description: "As senhas não coincidem.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (signUpData.password.length < 6) {
+      toast({
+        title: "Erro no cadastro",
+        description: "A senha deve ter no mínimo 6 caracteres.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     const { error } = await signUp(signUpData.email, signUpData.password, {
@@ -81,11 +105,19 @@ const Auth = () => {
     });
 
     if (error) {
-      toast({
-        title: "Erro no cadastro",
-        description: error.message,
-        variant: "destructive",
-      });
+      if (error.message.includes("already registered")) {
+        toast({
+          title: "Email já cadastrado",
+          description: "Este email já está registrado. Faça login ou use outro email.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Erro no cadastro",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
       setLoading(false);
     } else {
       toast({
@@ -94,6 +126,94 @@ const Auth = () => {
       });
     }
   };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      toast({
+        title: "Email enviado!",
+        description: "Verifique sua caixa de entrada para redefinir sua senha.",
+      });
+      setShowForgotPassword(false);
+      setForgotEmail("");
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível enviar o email. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 animate-slide-in">
+        <Card className="w-full max-w-md glass border-primary/20 shadow-neon">
+          <CardHeader className="text-center space-y-4">
+            <div className="flex justify-center">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-24 h-24 object-contain hover-lift" />
+            </div>
+            <div>
+              <CardTitle className="text-2xl bg-gradient-hero bg-clip-text text-transparent">
+                Esqueceu sua senha?
+              </CardTitle>
+              <CardDescription>
+                Digite seu email para receber instruções de recuperação
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="forgot-email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="forgot-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    className="pl-10 smooth-transition"
+                    required
+                  />
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-gradient-primary hover:shadow-neon smooth-transition"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  "Enviar Email de Recuperação"
+                )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => setShowForgotPassword(false)}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Voltar para login
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4 animate-slide-in">
@@ -128,32 +248,48 @@ const Auth = () => {
               <form onSubmit={handleSignIn} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="signin-email" className="text-sm font-medium">Email</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="seu@email.com"
-                    value={signInData.email}
-                    onChange={(e) =>
-                      setSignInData({ ...signInData, email: e.target.value })
-                    }
-                    className="smooth-transition focus:border-primary focus:ring-primary"
-                    required
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-email"
+                      type="email"
+                      placeholder="seu@email.com"
+                      value={signInData.email}
+                      onChange={(e) =>
+                        setSignInData({ ...signInData, email: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="signin-password" className="text-sm font-medium">Senha</Label>
-                  <Input
-                    id="signin-password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={signInData.password}
-                    onChange={(e) =>
-                      setSignInData({ ...signInData, password: e.target.value })
-                    }
-                    className="smooth-transition focus:border-primary focus:ring-primary"
-                    required
-                  />
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signin-password"
+                      type="password"
+                      placeholder="••••••••"
+                      value={signInData.password}
+                      onChange={(e) =>
+                        setSignInData({ ...signInData, password: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
                 </div>
+
+                <Button
+                  type="button"
+                  variant="link"
+                  className="text-sm text-primary hover:text-primary/80 p-0 h-auto"
+                  onClick={() => setShowForgotPassword(true)}
+                >
+                  Esqueceu sua senha?
+                </Button>
+
                 <Button
                   type="submit"
                   className="w-full bg-gradient-primary hover:shadow-neon smooth-transition hover-lift text-primary-foreground font-semibold"
@@ -171,53 +307,60 @@ const Auth = () => {
                     </>
                   )}
                 </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => navigate('/')}
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Voltar
+                </Button>
               </form>
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-6">
               <form onSubmit={handleSignUp} className="space-y-5">
+                <Alert className="border-primary/30 bg-primary/5">
+                  <AlertDescription className="text-sm">
+                    Escolha o tipo de conta que você precisa. Após o cadastro, você será redirecionado para a área correspondente.
+                  </AlertDescription>
+                </Alert>
+
                 <div className="space-y-2">
                   <Label htmlFor="signup-name" className="text-sm font-medium">Nome Completo</Label>
-                  <Input
-                    id="signup-name"
-                    type="text"
-                    placeholder="Seu nome completo"
-                    value={signUpData.full_name}
-                    onChange={(e) =>
-                      setSignUpData({ ...signUpData, full_name: e.target.value })
-                    }
-                    className="smooth-transition focus:border-primary focus:ring-primary"
-                    required
-                  />
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-name"
+                      type="text"
+                      placeholder="Seu nome completo"
+                      value={signUpData.full_name}
+                      onChange={(e) =>
+                        setSignUpData({ ...signUpData, full_name: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-email" className="text-sm font-medium">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="seu@email.com"
-                    value={signUpData.email}
-                    onChange={(e) =>
-                      setSignUpData({ ...signUpData, email: e.target.value })
-                    }
-                    className="smooth-transition focus:border-primary focus:ring-primary"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-sm font-medium">Senha</Label>
-                  <Input
-                    id="signup-password"
-                    type="password"
-                    placeholder="Mínimo 6 caracteres"
-                    value={signUpData.password}
-                    onChange={(e) =>
-                      setSignUpData({ ...signUpData, password: e.target.value })
-                    }
-                    className="smooth-transition focus:border-primary focus:ring-primary"
-                    required
-                    minLength={6}
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      placeholder="seu@email.com"
+                      value={signUpData.email}
+                      onChange={(e) =>
+                        setSignUpData({ ...signUpData, email: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-role" className="text-sm font-medium">Tipo de Conta</Label>
@@ -237,6 +380,41 @@ const Auth = () => {
                     <option value="library">📚 Biblioteca</option>
                   </select>
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password" className="text-sm font-medium">Senha</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-password"
+                      type="password"
+                      placeholder="Mínimo 6 caracteres"
+                      value={signUpData.password}
+                      onChange={(e) =>
+                        setSignUpData({ ...signUpData, password: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-confirm" className="text-sm font-medium">Confirmar Senha</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="signup-confirm"
+                      type="password"
+                      placeholder="Digite a senha novamente"
+                      value={signUpData.confirmPassword}
+                      onChange={(e) =>
+                        setSignUpData({ ...signUpData, confirmPassword: e.target.value })
+                      }
+                      className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
+                </div>
                 <Button
                   type="submit"
                   className="w-full bg-gradient-accent hover:shadow-neon smooth-transition hover-lift text-accent-foreground font-semibold"
@@ -253,6 +431,16 @@ const Auth = () => {
                       Criar Conta
                     </>
                   )}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => navigate('/')}
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Voltar
                 </Button>
               </form>
             </TabsContent>
