@@ -6,6 +6,7 @@ import LunchChart from "@/components/Dashboard/LunchChart";
 import StudentList from "@/components/Attendance/StudentList";
 import MenuManager from "@/components/Lunch/MenuManager";
 import WeeklyReports from "@/components/WeeklyReports";
+import KitchenReportsViewer from "@/components/Admin/KitchenReportsViewer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
@@ -15,7 +16,8 @@ import {
   BarChart3,
   Calendar,
   Settings,
-  TrendingUp
+  TrendingUp,
+  ChefHat
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -32,7 +34,7 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 bg-card/80 glass shadow-sm border border-border/50">
+          <TabsList className="grid w-full grid-cols-7 bg-card/80 glass shadow-sm border border-border/50">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
@@ -48,11 +50,18 @@ const AdminDashboard = () => {
               <span className="hidden sm:inline">Relatórios</span>
             </TabsTrigger>
             <TabsTrigger 
+              value="kitchen-reports" 
+              className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
+            >
+              <ChefHat className="h-4 w-4" />
+              <span className="hidden sm:inline">Rel. Cozinha</span>
+            </TabsTrigger>
+            <TabsTrigger 
               value="kitchen" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <UtensilsCrossed className="h-4 w-4" />
-              <span className="hidden sm:inline">Cozinha</span>
+              <span className="hidden sm:inline">Cardápio</span>
             </TabsTrigger>
             <TabsTrigger
               value="attendance" 
@@ -121,6 +130,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="reports">
             <WeeklyReports />
+          </TabsContent>
+
+          <TabsContent value="kitchen-reports">
+            <KitchenReportsViewer />
           </TabsContent>
 
           <TabsContent value="kitchen">

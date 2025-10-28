@@ -316,6 +316,42 @@ export type Database = {
           },
         ]
       }
+      kitchen_reports: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          ingredients_used: Json | null
+          meals_by_type: Json | null
+          observations: string | null
+          report_date: string
+          total_meals_served: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          ingredients_used?: Json | null
+          meals_by_type?: Json | null
+          observations?: string | null
+          report_date: string
+          total_meals_served?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          ingredients_used?: Json | null
+          meals_by_type?: Json | null
+          observations?: string | null
+          report_date?: string
+          total_meals_served?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       meal_service: {
         Row: {
           date: string
@@ -438,6 +474,39 @@ export type Database = {
           servings?: number | null
           status?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      menu_orders: {
+        Row: {
+          created_at: string | null
+          id: string
+          meal_type: string
+          menu_item: string
+          order_date: string | null
+          status: string | null
+          student_id: string
+          student_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          meal_type: string
+          menu_item: string
+          order_date?: string | null
+          status?: string | null
+          student_id: string
+          student_name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          meal_type?: string
+          menu_item?: string
+          order_date?: string | null
+          status?: string | null
+          student_id?: string
+          student_name?: string
         }
         Relationships: []
       }
@@ -633,6 +702,27 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       active_menu: {
@@ -731,10 +821,16 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "teacher" | "student" | "kitchen"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -861,6 +957,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "teacher", "student", "kitchen"],
+    },
   },
 } as const

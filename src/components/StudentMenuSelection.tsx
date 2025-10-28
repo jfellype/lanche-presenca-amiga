@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { UtensilsCrossed, Clock, AlertTriangle, CheckCircle } from "lucide-react";
+import { UtensilsCrossed, Clock, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,55 +12,48 @@ interface MenuItemCard {
   name: string;
   description: string;
   category: string;
+  meal_type: string;
   allergens: string[];
-  nutritionalInfo: {
+  nutritional_info: {
     calories: number;
     protein: number;
     carbs: number;
   };
-  image?: string;
+  image_url?: string;
 }
-
-const mockMenu: MenuItemCard[] = [
-  {
-    id: "1",
-    name: "Arroz Integral com Feijão",
-    description: "Arroz integral orgânico com feijão carioca e tempero caseiro",
-    category: "Principal",
-    allergens: [],
-    nutritionalInfo: { calories: 320, protein: 14, carbs: 58 },
-  },
-  {
-    id: "2",
-    name: "Peito de Frango Grelhado",
-    description: "Peito de frango orgânico grelhado com ervas finas",
-    category: "Principal",
-    allergens: [],
-    nutritionalInfo: { calories: 185, protein: 31, carbs: 0 },
-  },
-  {
-    id: "3",
-    name: "Salada Detox",
-    description: "Mix de folhas, beterraba, cenoura e vinagre balsâmico",
-    category: "Acompanhamento",
-    allergens: [],
-    nutritionalInfo: { calories: 85, protein: 3, carbs: 12 },
-  },
-  {
-    id: "4",
-    name: "Sanduíche Natural",
-    description: "Pão integral com peito de peru, alface e tomate",
-    category: "Lanche",
-    allergens: ["Glúten", "Lactose"],
-    nutritionalInfo: { calories: 285, protein: 18, carbs: 28 },
-  },
-];
 
 const StudentMenuSelection = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [menu, setMenu] = useState<MenuItemCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    loadMenu();
+  }, []);
+
+  const loadMenu = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('meal_type', { ascending: true });
+
+      if (error) throw error;
+      setMenu(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Erro ao carregar cardápio",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleSelection = (itemId: string) => {
     setSelectedItems((prev) =>
@@ -71,7 +64,7 @@ const StudentMenuSelection = () => {
   };
 
   const handleSubmitOrder = async () => {
-    if (selectedItems.length === 0) {
+    if (selectedItems.length === 0 || !user) {
       toast({
         title: "Selecione pelo menos um item",
         description: "Escolha os itens que deseja para sua refeição.",
@@ -80,11 +73,25 @@ const StudentMenuSelection = () => {
       return;
     }
 
-    setLoading(true);
+    setSubmitting(true);
 
     try {
-      // Aqui você enviaria para a cozinha e admin
-      // Por enquanto, apenas simulação
+      const orders = selectedItems.map(itemId => {
+        const item = menu.find(m => m.id === itemId);
+        return {
+          student_id: user.id,
+          student_name: user.full_name,
+          menu_item: item?.name || '',
+          meal_type: item?.meal_type || '',
+          status: 'pending'
+        };
+      });
+
+      const { error } = await supabase
+        .from('menu_orders')
+        .insert(orders);
+
+      if (error) throw error;
       
       toast({
         title: "Pedido enviado!",
@@ -99,7 +106,7 @@ const StudentMenuSelection = () => {
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -113,6 +120,14 @@ const StudentMenuSelection = () => {
     return colors[category] || "bg-muted/20 text-muted-foreground";
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -125,17 +140,26 @@ const StudentMenuSelection = () => {
         {selectedItems.length > 0 && (
           <Button
             onClick={handleSubmitOrder}
-            disabled={loading}
+            disabled={submitting}
             className="bg-gradient-accent hover:shadow-neon smooth-transition hover-lift"
           >
-            <CheckCircle className="mr-2 h-4 w-4" />
-            Enviar Pedido ({selectedItems.length})
+            {submitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              <>
+                <CheckCircle className="mr-2 h-4 w-4" />
+                Enviar Pedido ({selectedItems.length})
+              </>
+            )}
           </Button>
         )}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {mockMenu.map((item) => (
+        {menu.map((item) => (
           <Card
             key={item.id}
             className={`glass cursor-pointer smooth-transition hover-lift ${
@@ -160,7 +184,7 @@ const StudentMenuSelection = () => {
             <CardContent className="space-y-3">
               <p className="text-sm text-muted-foreground">{item.description}</p>
 
-              {item.allergens.length > 0 && (
+              {item.allergens && item.allergens.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.allergens.map((allergen, idx) => (
                     <Badge
@@ -178,15 +202,15 @@ const StudentMenuSelection = () => {
               <div className="grid grid-cols-3 gap-2 text-xs pt-2 border-t">
                 <div>
                   <p className="text-muted-foreground">Calorias</p>
-                  <p className="font-bold">{item.nutritionalInfo.calories}</p>
+                  <p className="font-bold">{item.nutritional_info?.calories || 0}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Proteína</p>
-                  <p className="font-bold">{item.nutritionalInfo.protein}g</p>
+                  <p className="font-bold">{item.nutritional_info?.protein || 0}g</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Carbos</p>
-                  <p className="font-bold">{item.nutritionalInfo.carbs}g</p>
+                  <p className="font-bold">{item.nutritional_info?.carbs || 0}g</p>
                 </div>
               </div>
             </CardContent>
