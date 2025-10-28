@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut } from "lucide-react";
+import { LogOut, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import sigeaLogo from "@/assets/sigea-logo.png";
@@ -30,6 +30,15 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/sigea-assistant')}
+              className="hidden md:flex items-center gap-2 bg-gradient-primary text-white hover:bg-primary/90 hover:shadow-neon smooth-transition"
+            >
+              <Bot className="w-4 h-4" />
+              <span>Assistente SIGEA</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"

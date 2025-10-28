@@ -13,6 +13,7 @@ import KitchenDashboard from "@/pages/KitchenDashboard";
 import NotFound from "./pages/NotFound";
 import Auth from "@/components/Auth";
 import Profile from "@/pages/Profile";
+import SIGEAAssistant from "@/pages/SIGEAAssistant";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const AppContent = () => {
       } />
       <Route path="/auth" element={<Navigate to="/" replace />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/sigea-assistant" element={<SIGEAAssistant />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/teacher" element={<TeacherDashboard />} />
       <Route path="/student" element={<StudentPortal />} />
