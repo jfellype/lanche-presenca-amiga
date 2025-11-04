@@ -15,28 +15,28 @@ const ReportFilters = ({ period, onPeriodChange }: ReportFiltersProps) => {
       </div>
       <div className="flex gap-2">
         <Button
-          variant={period === 'day' ? 'default' : 'outline'}
+          variant={period === 'day' ? 'premium' : 'outline'}
           size="sm"
           onClick={() => onPeriodChange('day')}
-          className={period === 'day' ? 'bg-gradient-primary hover:shadow-neon' : 'hover-lift'}
+          className="hover-lift"
         >
           <Calendar className="h-4 w-4 mr-2" />
           Dia
         </Button>
         <Button
-          variant={period === 'week' ? 'default' : 'outline'}
+          variant={period === 'week' ? 'premium' : 'outline'}
           size="sm"
           onClick={() => onPeriodChange('week')}
-          className={period === 'week' ? 'bg-gradient-primary hover:shadow-neon' : 'hover-lift'}
+          className="hover-lift"
         >
           <Calendar className="h-4 w-4 mr-2" />
           Semana
         </Button>
         <Button
-          variant={period === 'month' ? 'default' : 'outline'}
+          variant={period === 'month' ? 'premium' : 'outline'}
           size="sm"
           onClick={() => onPeriodChange('month')}
-          className={period === 'month' ? 'bg-gradient-primary hover:shadow-neon' : 'hover-lift'}
+          className="hover-lift"
         >
           <Calendar className="h-4 w-4 mr-2" />
           Mês
