@@ -11,43 +11,46 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="glass border-b border-border/50 backdrop-blur-md sticky top-0 z-50 smooth-transition">
+    <header className="glass border-b border-border/30 backdrop-blur-xl sticky top-0 z-50 smooth-transition shadow-medium">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer hover-lift smooth-transition" onClick={() => navigate('/')}>
-            <div className="relative w-14 h-14">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-lg" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse border-2 border-background shadow-neon"></div>
+          <div className="flex items-center gap-4 cursor-pointer group smooth-transition" onClick={() => navigate('/')}>
+            <div className="relative w-14 h-14 group-hover:scale-110 smooth-transition">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-2xl" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse border-2 border-background shadow-neon-secondary"></div>
             </div>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent tracking-tight">SIGEA</h1>
-              <p className="text-xs text-muted-foreground mt-0.5">Gestão Escolar & Culinária</p>
+              <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent tracking-tight group-hover:scale-105 smooth-transition">SIGEA</h1>
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">Gestão Escolar & Alimentar</p>
               <div className="flex items-center gap-2 mt-1">
-                <div className="w-1.5 h-1.5 bg-accent rounded-full animate-ping"></div>
-                <span className="text-xs text-accent font-medium">Online</span>
+                <div className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                </div>
+                <span className="text-xs text-accent font-semibold">Sistema Online</span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Button
-              variant="ghost"
+              variant="premium"
               size="sm"
               onClick={() => navigate('/sigea-assistant')}
-              className="hidden md:flex items-center gap-2 bg-gradient-primary text-white hover:bg-primary/90 hover:shadow-neon smooth-transition"
+              className="hidden md:flex items-center gap-2"
             >
               <Bot className="w-4 h-4" />
-              <span>Assistente SIGEA</span>
+              <span>Assistente IA</span>
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate('/profile')}
-              className="flex items-center gap-2 hover:bg-primary/10 hover-lift rounded-full"
+              className="flex items-center gap-2 hover:bg-accent/10 rounded-full border border-transparent hover:border-accent/30"
             >
-              <Avatar className="h-9 w-9 border-2 border-primary/20">
+              <Avatar className="h-9 w-9 border-2 border-primary/30 shadow-soft">
                 <AvatarImage src={user?.avatar_url} />
-                <AvatarFallback className="bg-gradient-primary text-primary-foreground">
+                <AvatarFallback className="bg-gradient-secondary text-primary font-bold">
                   {user?.full_name.split(' ').map(n => n[0]).join('') || 'U'}
                 </AvatarFallback>
               </Avatar>
@@ -61,7 +64,7 @@ const Header = () => {
               onClick={signOut}
               variant="outline"
               size="sm"
-              className="border-destructive/30 text-destructive hover:bg-destructive hover:text-destructive-foreground hover-lift"
+              className="border-destructive/40 text-destructive hover:bg-destructive hover:text-destructive-foreground hover:shadow-medium"
             >
               <LogOut className="w-4 h-4 sm:mr-2" />
               <span className="hidden sm:inline">Sair</span>

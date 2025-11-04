@@ -20,10 +20,11 @@ const ThemeToggle = () => {
       variant="ghost"
       size="icon"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className="w-9 h-9 text-primary-foreground hover:bg-white/20 transition-all duration-300 hover:shadow-neon group"
+      className="w-9 h-9 hover:bg-accent/10 hover:border-accent/30 border border-transparent smooth-transition hover:shadow-neon-secondary group relative overflow-hidden"
     >
-      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 group-hover:animate-glow-rotate" />
-      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 group-hover:text-accent" />
+      <div className="absolute inset-0 bg-gradient-accent opacity-0 group-hover:opacity-20 smooth-transition"></div>
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-accent relative z-10" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-primary z-10" />
       <span className="sr-only">Alternar tema</span>
     </Button>
   );
