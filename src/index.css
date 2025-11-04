@@ -193,4 +193,61 @@
       transform: translateY(0);
     }
   }
+
+  /* Professional Logo Styling */
+  .logo-professional {
+    filter: drop-shadow(0 4px 20px hsla(230, 65%, 68%, 0.4))
+            drop-shadow(0 0 40px hsla(42, 88%, 58%, 0.2));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  .logo-professional:hover {
+    filter: drop-shadow(0 8px 30px hsla(230, 65%, 68%, 0.6))
+            drop-shadow(0 0 60px hsla(42, 88%, 58%, 0.4));
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .logo-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .logo-container::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: radial-gradient(circle at center, 
+      hsla(230, 65%, 68%, 0.15) 0%, 
+      hsla(42, 88%, 58%, 0.1) 50%, 
+      transparent 100%);
+    border-radius: 50%;
+    animation: pulse-glow 3s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 }

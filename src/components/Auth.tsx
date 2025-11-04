@@ -155,7 +155,9 @@ const Auth = () => {
         <Card className="w-full max-w-md glass border-primary/20 shadow-neon">
           <CardHeader className="text-center space-y-4">
             <div className="flex justify-center">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-24 h-24 object-contain hover-lift" />
+              <div className="logo-container">
+                <img src={sigeaLogo} alt="SIGEA Logo" className="w-24 h-24 object-contain logo-professional" />
+              </div>
             </div>
             <div>
               <CardTitle className="text-2xl bg-gradient-hero bg-clip-text text-transparent">
@@ -221,9 +223,8 @@ const Auth = () => {
       <Card className="w-full max-w-md glass border-primary/30 hover-glow relative z-10 smooth-transition">
         <CardHeader className="space-y-4 text-center">
           <div className="flex justify-center">
-            <div className="relative w-24 h-24 hover-lift">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-2xl" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full animate-pulse border-2 border-background"></div>
+            <div className="logo-container">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-32 h-32 object-contain logo-professional" />
             </div>
           </div>
           <div>

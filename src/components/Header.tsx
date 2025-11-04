@@ -15,9 +15,8 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 cursor-pointer group smooth-transition" onClick={() => navigate('/')}>
-            <div className="relative w-14 h-14 group-hover:scale-110 smooth-transition">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-full h-full object-contain drop-shadow-2xl" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse border-2 border-background shadow-neon-secondary"></div>
+            <div className="logo-container">
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-14 h-14 object-contain logo-professional" />
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent tracking-tight group-hover:scale-105 smooth-transition">SIGEA</h1>

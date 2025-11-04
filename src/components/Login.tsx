@@ -18,10 +18,13 @@ const Login = () => {
       
       <div className="w-full max-w-md space-y-8 relative z-10">
         <div className="text-center space-y-6">
-          <div className="flex items-center justify-center mb-6 animate-fade-in">
-            <div className="relative">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-32 h-32 object-contain drop-shadow-2xl" />
-              <div className="absolute inset-0 bg-gradient-primary opacity-20 blur-2xl rounded-full animate-pulse"></div>
+          <div className="flex justify-center mb-8 animate-float">
+            <div className="logo-container">
+              <img 
+                src={sigeaLogo} 
+                alt="SIGEA" 
+                className="w-40 h-40 object-contain logo-professional"
+              />
             </div>
           </div>
           <div className="space-y-2">
