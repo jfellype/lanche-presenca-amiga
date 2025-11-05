@@ -194,47 +194,92 @@
     }
   }
 
-  /* Professional Logo Styling */
+  /* Professional Logo Styling - Moldura circular com ring animado */
+  .logo-container {
+    @apply relative inline-flex items-center justify-center;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, 
+      hsla(230, 65%, 68%, 0.08) 0%, 
+      transparent 50%, 
+      hsla(42, 88%, 58%, 0.06) 100%);
+    border-radius: 50%;
+    animation: logo-pulse 3s ease-in-out infinite;
+  }
+
+  .logo-container::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: conic-gradient(
+      from 0deg,
+      hsla(230, 65%, 68%, 0.4),
+      hsla(42, 88%, 58%, 0.4),
+      hsla(230, 65%, 68%, 0.4)
+    );
+    border-radius: 50%;
+    animation: logo-ring-rotate 4s linear infinite;
+    filter: blur(6px);
+    opacity: 0.6;
+    z-index: -1;
+  }
+
+  .logo-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+      hsla(230, 65%, 68%, 0.3), 
+      hsla(42, 88%, 58%, 0.3)
+    ) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: logo-ring-pulse 2s ease-in-out infinite;
+  }
+
   .logo-professional {
-    filter: drop-shadow(0 4px 20px hsla(230, 65%, 68%, 0.4))
-            drop-shadow(0 0 40px hsla(42, 88%, 58%, 0.2));
+    @apply relative z-10 object-contain rounded-full;
+    filter: drop-shadow(0 4px 16px hsla(230, 65%, 68%, 0.5))
+            drop-shadow(0 0 24px hsla(42, 88%, 58%, 0.3))
+            brightness(1.05);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     image-rendering: crisp-edges;
     image-rendering: -webkit-optimize-contrast;
   }
 
   .logo-professional:hover {
-    filter: drop-shadow(0 8px 30px hsla(230, 65%, 68%, 0.6))
-            drop-shadow(0 0 60px hsla(42, 88%, 58%, 0.4));
-    transform: translateY(-2px) scale(1.02);
+    filter: drop-shadow(0 8px 32px hsla(230, 65%, 68%, 0.7))
+            drop-shadow(0 0 48px hsla(42, 88%, 58%, 0.5))
+            brightness(1.1);
+    transform: scale(1.08) rotate(3deg);
   }
 
-  .logo-container {
-    position: relative;
-    display: inline-block;
-  }
-
-  .logo-container::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    background: radial-gradient(circle at center, 
-      hsla(230, 65%, 68%, 0.15) 0%, 
-      hsla(42, 88%, 58%, 0.1) 50%, 
-      transparent 100%);
-    border-radius: 50%;
-    animation: pulse-glow 3s ease-in-out infinite;
-    z-index: -1;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      opacity: 0.6;
+  @keyframes logo-pulse {
+    0%, 100% { 
+      opacity: 1;
       transform: scale(1);
     }
+    50% { 
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes logo-ring-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes logo-ring-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.4;
+    }
     50% {
-      opacity: 1;
-      transform: scale(1.1);
+      transform: scale(1.05);
+      opacity: 0.8;
     }
   }
 
