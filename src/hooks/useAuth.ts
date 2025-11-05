@@ -18,19 +18,23 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listener - keep synchronous and defer fetches
+    let isMounted = true;
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isMounted) return;
       setSession(session);
+      
       if (session?.user) {
         const userId = session.user.id;
         setTimeout(async () => {
+          if (!isMounted) return;
+          
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', userId)
             .maybeSingle();
 
-          // Prefer authoritative role from user_roles; fallback to profile.role
           let resolvedRole: any = 'student';
           try {
             const { data: roles } = await supabase
@@ -42,7 +46,7 @@ export const useAuth = () => {
             resolvedRole = profile?.role ?? 'student';
           }
 
-          if (profile) {
+          if (profile && isMounted) {
             setUser({
               id: profile.id,
               email: profile.email,
@@ -52,59 +56,68 @@ export const useAuth = () => {
               class: profile.class,
               subject: profile.subject,
             });
-          } else {
-            setUser(null);
+            setLoading(false);
+          } else if (isMounted) {
+            // Perfil não encontrado: aguardar trigger popular os dados
+            console.warn('Perfil não encontrado, aguardando criação...');
+            setLoading(false);
           }
-          setLoading(false);
-        }, 0);
+        }, 100);
       } else {
         setUser(null);
         setLoading(false);
       }
     });
 
-    // Initial session check AFTER listener
+    // Initial session check
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!isMounted) return;
       setSession(session);
+      
       if (session?.user) {
         const userId = session.user.id;
-        supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', userId)
-          .maybeSingle()
-          .then(async ({ data: profile }) => {
-            // Prefer authoritative role from user_roles; fallback to profile.role
-            let resolvedRole: any = 'student';
-            try {
-              const { data: roles } = await supabase
-                .from('user_roles')
-                .select('role')
-                .eq('user_id', userId);
-              resolvedRole = roles?.[0]?.role ?? profile?.role ?? 'student';
-            } catch (e) {
-              resolvedRole = profile?.role ?? 'student';
-            }
+        (async () => {
+          if (!isMounted) return;
+          
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
 
-            if (profile) {
-              setUser({
-                id: profile.id,
-                email: profile.email,
-                full_name: profile.full_name,
-                role: resolvedRole,
-                avatar_url: profile.avatar_url,
-                class: profile.class,
-                subject: profile.subject,
-              });
-            }
-            setLoading(false);
-          });
-      } else {
+          let resolvedRole: any = 'student';
+          try {
+            const { data: roles } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', userId);
+            resolvedRole = roles?.[0]?.role ?? profile?.role ?? 'student';
+          } catch (e) {
+            resolvedRole = profile?.role ?? 'student';
+          }
+
+          if (profile && isMounted) {
+            setUser({
+              id: profile.id,
+              email: profile.email,
+              full_name: profile.full_name,
+              role: resolvedRole,
+              avatar_url: profile.avatar_url,
+              class: profile.class,
+              subject: profile.subject,
+            });
+          }
+          if (isMounted) setLoading(false);
+        })();
+      } else if (isMounted) {
         setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, userData: { full_name: string; role: string }) => {

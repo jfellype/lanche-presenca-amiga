@@ -10,6 +10,7 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import StudentPortal from "@/pages/StudentPortal";
 import TeacherDashboard from "@/pages/TeacherDashboard";
 import KitchenDashboard from "@/pages/KitchenDashboard";
+import LibraryDashboard from "@/pages/LibraryDashboard";
 import NotFound from "./pages/NotFound";
 import Auth from "@/components/Auth";
 import Profile from "@/pages/Profile";
@@ -39,6 +40,7 @@ const AppContent = () => {
         user?.role === 'admin' ? <AdminDashboard /> :
         user?.role === 'teacher' ? <TeacherDashboard /> :
         user?.role === 'kitchen' ? <KitchenDashboard /> :
+        user?.role === 'library' ? <LibraryDashboard /> :
         <StudentPortal />
       } />
       <Route path="/auth" element={<Navigate to="/" replace />} />
@@ -48,6 +50,7 @@ const AppContent = () => {
       <Route path="/teacher" element={<TeacherDashboard />} />
       <Route path="/student" element={<StudentPortal />} />
       <Route path="/kitchen" element={<KitchenDashboard />} />
+      <Route path="/library" element={<LibraryDashboard />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
