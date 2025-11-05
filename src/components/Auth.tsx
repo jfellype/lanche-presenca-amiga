@@ -68,10 +68,13 @@ const Auth = () => {
       }
       
       toast({
-        title: "Erro ao fazer login",
+        title: 'Erro ao fazer login',
         description: errorMessage,
-        variant: "destructive",
+        variant: 'destructive',
       });
+      setLoading(false);
+    } else {
+      // Sucesso: manter a UI responsiva até o redirecionamento do useEffect
       setLoading(false);
     }
   };

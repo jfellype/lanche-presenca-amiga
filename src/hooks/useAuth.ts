@@ -6,7 +6,7 @@ export interface User {
   id: string;
   email: string;
   full_name: string;
-  role: 'admin' | 'teacher' | 'student' | 'kitchen';
+  role: 'admin' | 'teacher' | 'student' | 'kitchen' | 'library';
   avatar_url?: string;
   class?: string;
   subject?: string;
@@ -29,12 +29,25 @@ export const useAuth = () => {
             .select('*')
             .eq('id', userId)
             .maybeSingle();
+
+          // Prefer authoritative role from user_roles; fallback to profile.role
+          let resolvedRole: any = 'student';
+          try {
+            const { data: roles } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', userId);
+            resolvedRole = roles?.[0]?.role ?? profile?.role ?? 'student';
+          } catch (e) {
+            resolvedRole = profile?.role ?? 'student';
+          }
+
           if (profile) {
             setUser({
               id: profile.id,
               email: profile.email,
               full_name: profile.full_name,
-              role: profile.role,
+              role: resolvedRole,
               avatar_url: profile.avatar_url,
               class: profile.class,
               subject: profile.subject,
@@ -60,13 +73,25 @@ export const useAuth = () => {
           .select('*')
           .eq('id', userId)
           .maybeSingle()
-          .then(({ data: profile }) => {
+          .then(async ({ data: profile }) => {
+            // Prefer authoritative role from user_roles; fallback to profile.role
+            let resolvedRole: any = 'student';
+            try {
+              const { data: roles } = await supabase
+                .from('user_roles')
+                .select('role')
+                .eq('user_id', userId);
+              resolvedRole = roles?.[0]?.role ?? profile?.role ?? 'student';
+            } catch (e) {
+              resolvedRole = profile?.role ?? 'student';
+            }
+
             if (profile) {
               setUser({
                 id: profile.id,
                 email: profile.email,
                 full_name: profile.full_name,
-                role: profile.role,
+                role: resolvedRole,
                 avatar_url: profile.avatar_url,
                 class: profile.class,
                 subject: profile.subject,
