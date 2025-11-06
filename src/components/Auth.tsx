@@ -91,10 +91,21 @@ const Auth = () => {
       return;
     }
 
-    if (signUpData.password.length < 6) {
+    // Validação de senha segura
+    if (signUpData.password.length < 8) {
       toast({
         title: "Erro no cadastro",
-        description: "A senha deve ter no mínimo 6 caracteres.",
+        description: "A senha deve ter no mínimo 8 caracteres.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
+    if (!passwordRegex.test(signUpData.password)) {
+      toast({
+        title: "Senha fraca",
+        description: "A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.",
         variant: "destructive",
       });
       return;
@@ -125,8 +136,10 @@ const Auth = () => {
     } else {
       toast({
         title: "Cadastro realizado!",
-        description: "Bem-vindo ao SIGEA! Redirecionando...",
+        description: "Verifique seu email para confirmar sua conta antes de fazer login.",
       });
+      setLoading(false);
+      setActiveTab("signin");
     }
   };
 
@@ -135,16 +148,25 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      const { supabase } = await import('@/integrations/supabase/client');
+      const redirectUrl = `${window.location.origin}/reset-password`;
+      
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
+        redirectTo: redirectUrl,
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Email enviado!",
-        description: "Verifique sua caixa de entrada para redefinir sua senha.",
+        description: "Verifique sua caixa de entrada para redefinir sua senha. O link expira em 1 hora.",
       });
       setShowForgotPassword(false);
       setForgotEmail("");
     } catch (error: any) {
       toast({
         title: "Erro",
-        description: "Não foi possível enviar o email. Tente novamente.",
+        description: error.message || "Não foi possível enviar o email. Tente novamente.",
         variant: "destructive",
       });
     } finally {
@@ -391,14 +413,14 @@ const Auth = () => {
                     <Input
                       id="signup-password"
                       type="password"
-                      placeholder="Mínimo 6 caracteres"
+                      placeholder="Mínimo 8 caracteres (maiúscula, minúscula e número)"
                       value={signUpData.password}
                       onChange={(e) =>
                         setSignUpData({ ...signUpData, password: e.target.value })
                       }
                       className="pl-10 smooth-transition focus:border-primary focus:ring-primary"
                       required
-                      minLength={6}
+                      minLength={8}
                     />
                   </div>
                 </div>

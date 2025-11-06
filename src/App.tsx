@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "@/components/Auth";
 import Profile from "@/pages/Profile";
 import SIGEAAssistant from "@/pages/SIGEAAssistant";
+import ResetPassword from "@/pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const AppContent = () => {
     return (
       <Routes>
         <Route path="/auth" element={<Auth />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<Login />} />
       </Routes>
     );
