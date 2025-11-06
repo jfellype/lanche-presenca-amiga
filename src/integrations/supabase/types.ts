@@ -118,6 +118,72 @@ export type Database = {
           },
         ]
       }
+      auth_audit_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          email: string
+          error_message: string | null
+          id: string
+          ip_address: string | null
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          email: string
+          error_message?: string | null
+          id?: string
+          ip_address?: string | null
+          success: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          email?: string
+          error_message?: string | null
+          id?: string
+          ip_address?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      auth_rate_limits: {
+        Row: {
+          action: string
+          attempts: number
+          blocked_until: string | null
+          created_at: string | null
+          id: string
+          identifier: string
+          last_attempt: string
+          updated_at: string | null
+        }
+        Insert: {
+          action: string
+          attempts?: number
+          blocked_until?: string | null
+          created_at?: string | null
+          id?: string
+          identifier: string
+          last_attempt?: string
+          updated_at?: string | null
+        }
+        Update: {
+          action?: string
+          attempts?: number
+          blocked_until?: string | null
+          created_at?: string | null
+          id?: string
+          identifier?: string
+          last_attempt?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       book_loans: {
         Row: {
           book_id: string | null
@@ -821,6 +887,7 @@ export type Database = {
       }
     }
     Functions: {
+      cleanup_auth_rate_limits: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
