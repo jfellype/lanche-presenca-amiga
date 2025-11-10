@@ -1,0 +1,1 @@
+supabase migration new permitir_leitura_menu
