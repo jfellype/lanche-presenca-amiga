@@ -1,0 +1,12 @@
+-- Políticas para menu_items (todos podem ver)
+CREATE POLICY "Todos podem ver cardápio" ON menu_items FOR SELECT
+  USING (is_active = true);
+
+-- Políticas para Cozinha e admins poderem gerenciar o cardápio
+CREATE POLICY "Cozinha e admins podem gerenciar cardápio" ON menu_items FOR ALL
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles 
+      WHERE id = auth.uid() AND role IN ('admin', 'kitchen')
+    )
+  );
