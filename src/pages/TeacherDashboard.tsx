@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import MetricsCard from "@/components/Dashboard/MetricsCard";
+import StudentMenuSelection from "@/components/StudentMenuSelection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,8 @@ import {
   FileText,
   Clock,
   TrendingUp,
-  CheckCircle2
+  CheckCircle2,
+  UtensilsCrossed
 } from "lucide-react";
 
 const TeacherDashboard = () => {
@@ -54,7 +56,7 @@ const TeacherDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-card/80 glass">
+          <TabsList className="grid w-full grid-cols-5 bg-card/80 glass">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               Visão Geral
@@ -66,6 +68,10 @@ const TeacherDashboard = () => {
             <TabsTrigger value="assignments" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Atividades
+            </TabsTrigger>
+            <TabsTrigger value="menu" className="flex items-center gap-2">
+              <UtensilsCrossed className="h-4 w-4" />
+              Cardápio
             </TabsTrigger>
             <TabsTrigger value="schedule" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
@@ -256,6 +262,21 @@ const TeacherDashboard = () => {
                     ))}
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="menu" className="space-y-6">
+            <Card className="glass">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <UtensilsCrossed className="h-5 w-5" />
+                  Cardápio do Dia
+                </CardTitle>
+                <CardDescription>Veja o cardápio disponível e faça seu pedido</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StudentMenuSelection />
               </CardContent>
             </Card>
           </TabsContent>
