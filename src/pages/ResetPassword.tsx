@@ -28,15 +28,17 @@ const ResetPassword = () => {
       return;
     }
 
-    if (password.length < 8) {
+    if (password.length < 6) {
       toast({
         title: "Erro",
-        description: "A senha deve ter no mínimo 8 caracteres.",
+        description: "A senha deve ter no mínimo 6 caracteres.",
         variant: "destructive",
       });
       return;
     }
 
+    // Validação de complexidade removida
+    /*
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
     if (!passwordRegex.test(password)) {
       toast({
@@ -46,6 +48,7 @@ const ResetPassword = () => {
       });
       return;
     }
+    */
 
     setLoading(true);
 
@@ -98,12 +101,12 @@ const ResetPassword = () => {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Mínimo 8 caracteres (maiúscula, minúscula e número)"
+                  placeholder="Mínimo 6 caracteres"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 smooth-transition"
                   required
-                  minLength={8}
+                  minLength={6}
                 />
               </div>
             </div>
