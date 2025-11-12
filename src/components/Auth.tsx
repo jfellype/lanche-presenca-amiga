@@ -176,20 +176,22 @@ const Auth = () => {
 
   if (showForgotPassword) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4 animate-slide-in">
-        <Card className="w-full max-w-md glass border-primary/20 shadow-neon">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
+        <Card className="w-full max-w-md bg-card/50 backdrop-blur-xl border-border shadow-strong relative z-10">
           <CardHeader className="text-center space-y-4">
             <div className="flex justify-center">
-              <div className="logo-container">
-                <img src={sigeaLogo} alt="SIGEA Logo" className="w-24 h-24 object-contain logo-professional" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-20"></div>
+                <img src={sigeaLogo} alt="SIGEA Logo" className="w-20 h-20 object-contain relative z-10 drop-shadow-lg" />
               </div>
             </div>
             <div>
               <CardTitle className="text-2xl bg-gradient-hero bg-clip-text text-transparent">
-                Esqueceu sua senha?
+                Recuperar Senha
               </CardTitle>
               <CardDescription>
-                Digite seu email para receber instruções de recuperação
+                Digite seu email para receber o link de recuperação
               </CardDescription>
             </div>
           </CardHeader>
@@ -213,7 +215,8 @@ const Auth = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-primary hover:shadow-neon smooth-transition"
+                size="lg"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                 disabled={loading}
               >
                 {loading ? (
@@ -222,7 +225,7 @@ const Auth = () => {
                     Enviando...
                   </>
                 ) : (
-                  "Enviar Email de Recuperação"
+                  "Enviar Link"
                 )}
               </Button>
 
@@ -243,35 +246,36 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4 animate-slide-in">
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <Card className="w-full max-w-md glass border-primary/30 hover-glow relative z-10 smooth-transition">
-        <CardHeader className="space-y-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
+      <Card className="w-full max-w-md bg-card/50 backdrop-blur-xl border-border shadow-strong relative z-10">
+        <CardHeader className="space-y-4 text-center pb-6">
           <div className="flex justify-center">
-            <div className="logo-container">
-              <img src={sigeaLogo} alt="SIGEA Logo" className="w-32 h-32 object-contain logo-professional" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-20"></div>
+              <img src={sigeaLogo} alt="SIGEA Logo" className="w-20 h-20 object-contain relative z-10 drop-shadow-lg" />
             </div>
           </div>
           <div>
-            <CardTitle className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold bg-gradient-hero bg-clip-text text-transparent">
               SIGEA
             </CardTitle>
-            <CardDescription className="mt-2 text-base">Gestão Escolar & Culinária</CardDescription>
+            <CardDescription className="mt-2">Acesse sua conta</CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/50">
-              <TabsTrigger value="signin" className="smooth-transition data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/30">
+              <TabsTrigger value="signin" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Entrar
               </TabsTrigger>
-              <TabsTrigger value="signup" className="smooth-transition data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground">
+              <TabsTrigger value="signup" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Cadastrar
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="signin" className="space-y-6">
-              <form onSubmit={handleSignIn} className="space-y-5">
+            <TabsContent value="signin" className="space-y-4">
+              <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signin-email" className="text-sm font-medium">Email</Label>
                   <div className="relative">
@@ -318,7 +322,8 @@ const Auth = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-primary hover:shadow-neon smooth-transition hover-lift text-primary-foreground font-semibold"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                   disabled={loading}
                 >
                   {loading ? (
@@ -327,10 +332,7 @@ const Auth = () => {
                       Entrando...
                     </>
                   ) : (
-                    <>
-                      <GraduationCap className="mr-2 h-5 w-5" />
-                      Entrar no Sistema
-                    </>
+                    "Entrar"
                   )}
                 </Button>
 
@@ -346,11 +348,11 @@ const Auth = () => {
               </form>
             </TabsContent>
 
-            <TabsContent value="signup" className="space-y-6">
-              <form onSubmit={handleSignUp} className="space-y-5">
-                <Alert className="border-primary/30 bg-primary/5">
-                  <AlertDescription className="text-sm">
-                    Escolha o tipo de conta que você precisa. Após o cadastro, você será redirecionado para a área correspondente.
+            <TabsContent value="signup" className="space-y-4">
+              <form onSubmit={handleSignUp} className="space-y-4">
+                <Alert className="border-primary/20 bg-primary/5">
+                  <AlertDescription className="text-xs">
+                    Escolha o tipo de conta e preencha os dados para criar seu acesso.
                   </AlertDescription>
                 </Alert>
 
@@ -443,7 +445,8 @@ const Auth = () => {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-accent hover:shadow-neon smooth-transition hover-lift text-accent-foreground font-semibold"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                   disabled={loading}
                 >
                   {loading ? (
@@ -452,10 +455,7 @@ const Auth = () => {
                       Cadastrando...
                     </>
                   ) : (
-                    <>
-                      <GraduationCap className="mr-2 h-5 w-5" />
-                      Criar Conta
-                    </>
+                    "Criar Conta"
                   )}
                 </Button>
 
