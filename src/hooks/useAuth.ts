@@ -16,6 +16,9 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const refreshUser = () => setRefreshTrigger(prev => prev + 1);
 
   useEffect(() => {
     let isMounted = true;
@@ -118,7 +121,7 @@ export const useAuth = () => {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, []);
+  }, [refreshTrigger]);
 
   const signUp = async (email: string, password: string, userData: { full_name: string; role: string }) => {
     const redirectUrl = `${window.location.origin}/`;
@@ -155,5 +158,6 @@ export const useAuth = () => {
     signUp,
     signIn,
     signOut,
+    refreshUser,
   };
 };

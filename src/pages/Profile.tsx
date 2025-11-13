@@ -12,7 +12,7 @@ import { Upload, User, Mail, Phone, Lock, Shield, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -61,6 +61,7 @@ const Profile = () => {
       if (updateError) throw updateError;
 
       setAvatarUrl(publicUrl);
+      refreshUser(); // Atualiza os dados do usuário em todo o app
       toast({
         title: "Avatar atualizado!",
         description: "Sua foto de perfil foi atualizada com sucesso."
@@ -94,13 +95,11 @@ const Profile = () => {
 
       if (error) throw error;
 
+      refreshUser(); // Atualiza os dados do usuário em todo o app
       toast({
         title: "Perfil atualizado!",
         description: "Suas informações foram salvas com sucesso."
       });
-      
-      // Recarregar a página para atualizar os dados
-      setTimeout(() => window.location.reload(), 1000);
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar",
