@@ -7,6 +7,9 @@ import StudentList from "@/components/Attendance/StudentList";
 import MenuManager from "@/components/Lunch/MenuManager";
 import WeeklyReports from "@/components/WeeklyReports";
 import KitchenReportsViewer from "@/components/Admin/KitchenReportsViewer";
+import UserManagement from "@/components/Admin/UserManagement";
+import SystemSettings from "@/components/Admin/SystemSettings";
+import AuditLogs from "@/components/Admin/AuditLogs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
@@ -17,7 +20,9 @@ import {
   Calendar,
   Settings,
   TrendingUp,
-  ChefHat
+  ChefHat,
+  Shield,
+  FileText
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -34,13 +39,20 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7 bg-card/80 glass shadow-sm border border-border/50">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 bg-card/80 glass shadow-sm border border-border/50 h-auto">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <BarChart3 className="h-4 w-4" />
               <span className="hidden sm:inline">Visão Geral</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="users" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Usuários</span>
             </TabsTrigger>
             <TabsTrigger 
               value="reports" 
@@ -76,6 +88,13 @@ const AdminDashboard = () => {
             >
               <UtensilsCrossed className="h-4 w-4" />
               <span className="hidden sm:inline">Alimentação</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="audit" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <FileText className="h-4 w-4" />
+              <span className="hidden sm:inline">Logs</span>
             </TabsTrigger>
             <TabsTrigger 
               value="settings" 
@@ -128,6 +147,10 @@ const AdminDashboard = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="users">
+            <UserManagement />
+          </TabsContent>
+
           <TabsContent value="reports">
             <WeeklyReports />
           </TabsContent>
@@ -148,11 +171,12 @@ const AdminDashboard = () => {
             <MenuManager />
           </TabsContent>
 
-          <TabsContent value="settings" className="space-y-6">
-            <div className="glass bg-card border-border shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Configurações do Sistema</h3>
-              <p className="text-muted-foreground">Configurações administrativas serão implementadas aqui.</p>
-            </div>
+          <TabsContent value="audit">
+            <AuditLogs />
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <SystemSettings />
           </TabsContent>
         </Tabs>
       </main>
